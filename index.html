@@ -1,0 +1,2991 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TASTE TOWN – The Art of Delicious Food</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --tt-dark-red: #6E0D15;
+      --tt-crimson: #8B111B;
+      --tt-orange: #E85D04;
+      --tt-amber: #F48C06;
+      --tt-gold: #FFB703;
+      --tt-cream: #FFF8EE;
+      --tt-cream-soft: #FDF3E3;
+      --tt-charcoal: #120D0C;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--tt-charcoal);
+      color: var(--tt-cream);
+      overflow-x: hidden;
+    }
+
+    .font-display {
+      font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    }
+
+    @keyframes floatCrest {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-3px) rotate(2deg);
+      }
+    }
+
+    .logo-animate {
+      animation: floatCrest 3.8s ease-in-out infinite;
+    }
+
+    .dish-card {
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .dish-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 34px -12px rgba(232, 93, 4, 0.25);
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #140f0e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #6E0D15;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E85D04;
+    }
+  </style>
+</head>
+<body class="bg-[#120D0C] text-[#FFF8EE] selection:bg-[#FFB703] selection:text-[#120D0C]">
+
+  <!-- Top Demo Notice Bar -->
+  <div id="demoBanner" class="bg-[#6E0D15] border-b border-[#FFB703]/30 text-[#FDF3E3] text-xs py-2 px-4 text-center">
+    <span class="font-semibold text-[#FFB703]">Demo Notice:</span>
+    <span id="demoBannerText">
+      Orders, table reservations, loyalty points, and cart items are simulated locally in your browser (localStorage). No real payment gateway or backend server is connected.
+    </span>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="sticky top-0 z-40 bg-[#120D0C]/95 backdrop-blur-md border-b border-[#F48C06]/25">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+      <!-- Animated Logo -->
+      <a href="#home" class="flex items-center gap-3 shrink-0 group">
+        <div class="logo-animate">
+          <svg viewBox="0 0 64 64" class="w-11 h-11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Taste Town Logo">
+            <circle cx="32" cy="32" r="29" fill="#6E0D15" stroke="#FFB703" stroke-width="2.5" />
+            <circle cx="32" cy="32" r="23.5" stroke="#F48C06" stroke-width="1.2" stroke-dasharray="3 3" />
+            <path d="M17 38C17 29.7 23.7 23 32 23C40.3 23 47 29.7 47 38H17Z" fill="#FFF8EE" stroke="#FFB703" stroke-width="1.5" />
+            <rect x="14" y="39" width="36" height="3.5" rx="1.75" fill="#FFB703" />
+            <path d="M32 15.5C34.6 18.5 35.6 20.8 32 23C28.4 20.8 29.4 18.5 32 15.5Z" fill="#FFB703" />
+            <circle cx="21" cy="24" r="1.5" fill="#FFB703" />
+            <circle cx="43" cy="23" r="1.5" fill="#F48C06" />
+          </svg>
+        </div>
+        <div>
+          <div class="font-display text-xl sm:text-2xl font-bold tracking-wide text-[#FFB703] group-hover:text-[#F48C06] transition-colors">
+            TASTE TOWN
+          </div>
+          <div id="uiTagline" class="text-[11px] tracking-wider uppercase text-[#FDF3E3]/80">
+            The Art of Delicious Food
+          </div>
+        </div>
+      </a>
+
+      <!-- Nav Links -->
+      <nav class="hidden xl:flex items-center gap-5 text-sm font-semibold text-[#FDF3E3]">
+        <a href="#home" data-i18n="navHome" class="hover:text-[#FFB703] transition-colors">Home</a>
+        <a href="#about" data-i18n="navAbout" class="hover:text-[#FFB703] transition-colors">About</a>
+        <a href="#specials" data-i18n="navSpecials" class="hover:text-[#FFB703] transition-colors">Specials</a>
+        <a href="#menu" data-i18n="navMenu" class="hover:text-[#FFB703] transition-colors">Menu</a>
+        <a href="#offers" data-i18n="navOffers" class="hover:text-[#FFB703] transition-colors">Offers</a>
+        <a href="#ai-hub" data-i18n="navAI" class="hover:text-[#FFB703] transition-colors">AI Chef</a>
+        <a href="#reserve" data-i18n="navReserve" class="hover:text-[#FFB703] transition-colors">Reserve</a>
+        <a href="#gallery" data-i18n="navGallery" class="hover:text-[#FFB703] transition-colors">Gallery</a>
+        <a href="#contact" data-i18n="navContact" class="hover:text-[#FFB703] transition-colors">Contact</a>
+      </nav>
+
+      <!-- Language, Dashboard, Cart -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <select
+          id="langSelect"
+          aria-label="Language Selector"
+          class="bg-[#211816] border border-[#F48C06]/35 hover:border-[#FFB703] text-[#FFF8EE] text-xs sm:text-sm font-semibold rounded-full px-3 py-2 focus:outline-none cursor-pointer"
+        >
+          <option value="en">English</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+        </select>
+
+        <button
+          id="openDashboardBtn"
+          type="button"
+          class="inline-flex items-center gap-1.5 bg-[#211816] hover:bg-[#2E211E] border border-[#FFB703]/40 text-[#FFF8EE] px-3 py-2 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer"
+        >
+          <span data-i18n="dashboardBtn">Dashboard</span>
+          <span id="headerPointsBadge" class="bg-[#FFB703] text-[#120D0C] text-[11px] font-extrabold px-2 py-0.5 rounded-full">
+            420p
+          </span>
+        </button>
+
+        <button
+          id="openCartBtn"
+          type="button"
+          class="inline-flex items-center gap-2 bg-gradient-to-r from-[#E85D04] to-[#FFB703] hover:brightness-110 text-[#120D0C] px-3.5 py-2 rounded-full text-xs sm:text-sm font-extrabold shadow-lg shadow-[#E85D04]/25 transition-all cursor-pointer"
+        >
+          <span data-i18n="cartBtn">Cart</span>
+          <span id="headerCartCount" class="bg-[#120D0C] text-[#FFB703] text-xs font-extrabold w-5 h-5 rounded-full inline-flex items-center justify-center">
+            0
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile / Tablet Quick Anchor Strip -->
+    <div class="xl:hidden border-t border-white/10 bg-[#181110] px-4 py-2 flex items-center gap-4 overflow-x-auto text-xs font-semibold text-[#FDF3E3]/85">
+      <a href="#home" class="whitespace-nowrap hover:text-[#FFB703]">Home</a>
+      <a href="#about" class="whitespace-nowrap hover:text-[#FFB703]">About</a>
+      <a href="#specials" class="whitespace-nowrap hover:text-[#FFB703]">Specials</a>
+      <a href="#menu" class="whitespace-nowrap hover:text-[#FFB703]">Menu</a>
+      <a href="#offers" class="whitespace-nowrap hover:text-[#FFB703]">Offers</a>
+      <a href="#ai-hub" class="whitespace-nowrap hover:text-[#FFB703]">AI Chef</a>
+      <a href="#reserve" class="whitespace-nowrap hover:text-[#FFB703]">Reserve</a>
+      <a href="#gallery" class="whitespace-nowrap hover:text-[#FFB703]">Gallery</a>
+      <a href="#contact" class="whitespace-nowrap hover:text-[#FFB703]">Contact</a>
+    </div>
+  </header>
+
+  <!-- Toast Banner -->
+  <div
+    id="toastBar"
+    class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 hidden bg-[#6E0D15] border border-[#FFB703] text-[#FFF8EE] px-5 py-3 rounded-full shadow-2xl text-xs sm:text-sm font-bold items-center gap-2"
+  >
+    <span class="text-[#FFB703]">✦</span>
+    <span id="toastMessage"></span>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="relative overflow-hidden border-b border-[#F48C06]/20 min-h-[86vh] flex items-center">
+    <div id="heroSlidesContainer" class="absolute inset-0"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#120D0C] via-[#120D0C]/85 to-[#6E0D15]/60"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#120D0C] via-transparent to-[#120D0C]/55"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <!-- Left Hero Copy -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2.5 bg-[#6E0D15]/90 border border-[#FFB703]/45 text-[#FFB703] px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold">
+          <!-- Decorative SVG spice/fork illustration -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2c2.5 3.5 3.5 6.2 1.5 9.5C15.5 11 17 9.5 17 7.5c2.5 2.5 3.5 6.5 1.5 10.5C17.2 20.5 14.5 22 12 22s-5.2-1.5-6.5-4C3.5 14 4.5 10 7 7.5c0 2 1.5 3.5 3.5 4C8.5 8.2 9.5 5.5 12 2z" />
+          </svg>
+          <span id="heroSlideCaption">Slow-Cooked Spices & Golden Dining Moments</span>
+        </div>
+
+        <h1 id="heroTitle" class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-[#FFF8EE]">
+          Good Food, Great Taste, Unforgettable Moments.
+        </h1>
+
+        <p id="heroSubtitle" class="text-base sm:text-lg text-[#FDF3E3]/90 max-w-2xl leading-relaxed">
+          Discover delicious flavors made with love and the freshest ingredients.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-1">
+          <a
+            href="#menu"
+            id="heroExploreBtn"
+            class="inline-flex items-center gap-2 bg-[#FFF8EE] hover:bg-[#FDF3E3] text-[#6E0D15] font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition-all"
+          >
+            <span>Explore Menu</span>
+          </a>
+          <button
+            id="heroOrderNowBtn"
+            type="button"
+            class="inline-flex items-center gap-2 bg-gradient-to-r from-[#8B111B] via-[#E85D04] to-[#FFB703] hover:brightness-110 text-[#FFF8EE] font-extrabold px-6 py-3.5 rounded-xl shadow-xl shadow-[#E85D04]/30 transition-all cursor-pointer"
+          >
+            <span>Order Now</span>
+          </button>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="flex items-center gap-3 pt-2">
+          <button
+            id="heroPrevBtn"
+            type="button"
+            aria-label="Previous Slide"
+            class="w-9 h-9 rounded-full bg-[#221816]/90 border border-[#FFB703]/35 hover:border-[#FFB703] text-[#FFF8EE] inline-flex items-center justify-center cursor-pointer"
+          >
+            ‹
+          </button>
+          <div id="heroDots" class="flex items-center gap-2"></div>
+          <button
+            id="heroNextBtn"
+            type="button"
+            aria-label="Next Slide"
+            class="w-9 h-9 rounded-full bg-[#221816]/90 border border-[#FFB703]/35 hover:border-[#FFB703] text-[#FFF8EE] inline-flex items-center justify-center cursor-pointer"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Today's Special & Countdown Card -->
+      <div class="lg:col-span-5">
+        <div class="bg-[#1D1514]/95 backdrop-blur-md border border-[#FFB703]/45 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="bg-[#8B111B] text-[#FFB703] border border-[#FFB703]/40 text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
+              Today's Special Dish
+            </span>
+            <div class="text-xs font-semibold text-[#F48C06]">
+              <span>Offer Ends: </span>
+              <span id="heroCountdown" class="font-mono font-extrabold text-[#FFB703]">02h : 45m : 12s</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 items-center">
+            <img
+              src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80"
+              alt="Special Chicken Biryani"
+              class="w-full sm:w-28 h-28 rounded-xl object-cover border border-[#FFB703]/35 shrink-0"
+            />
+            <div class="flex-1 space-y-1.5 w-full">
+              <div class="flex items-center justify-between gap-2">
+                <h2 class="font-display text-xl font-bold text-[#FFF8EE]">Special Chicken Biryani</h2>
+                <span class="text-lg font-extrabold text-[#FFB703]">$16.99</span>
+              </div>
+              <p class="text-xs text-[#FDF3E3]/80 leading-relaxed">
+                Aromatic saffron basmati rice sealed in dum with spiced chicken, mint, crisp onions & raita.
+              </p>
+              <div class="pt-2 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onclick="addDishToCart('dish-1')"
+                  class="bg-[#E85D04] hover:bg-[#F48C06] text-[#120D0C] font-extrabold text-xs px-3.5 py-2 rounded-lg transition-colors cursor-pointer"
+                >
+                  + Add Special
+                </button>
+                <button
+                  type="button"
+                  onclick="applyPromoAndOpenCart('FAMILY20')"
+                  class="bg-[#6E0D15] hover:bg-[#8B111B] border border-[#FFB703]/40 text-[#FFB703] font-bold text-xs px-3 py-2 rounded-lg transition-colors cursor-pointer"
+                >
+                  Use FAMILY20
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT OUR RESTAURANT -->
+  <section id="about" class="py-20 bg-[#171110] border-b border-[#F48C06]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-6 space-y-5">
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#F48C06]">
+            About Our Restaurant
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-[#FFF8EE]">
+            Crafted With Passion, Fresh Produce & Culinary Heritage
+          </h2>
+          <p class="text-sm sm:text-base text-[#FDF3E3]/85 leading-relaxed">
+            At <strong>TASTE TOWN</strong>, every meal tells a story. Our chefs blend rich Indian spice traditions, wood-fired Italian classics, high-flame wok favorites, and indulgent desserts using farm-fresh vegetables, ethically sourced meats, and stone-ground masalas prepared fresh every morning.
+          </p>
+          <div class="bg-[#231917] border-l-4 border-[#FFB703] rounded-xl p-4">
+            <div class="text-xs font-extrabold uppercase tracking-wider text-[#FFB703] mb-1">
+              Our Mission & Commitment
+            </div>
+            <p class="text-sm text-[#FFF8EE]/90 italic">
+              “To deliver consistent excellence, warm hospitality, and joyful dining experiences—whether at your table or delivered fresh to your door.”
+            </p>
+          </div>
+          <div class="grid grid-cols-3 gap-3 pt-1">
+            <div class="bg-[#211816] border border-[#F48C06]/25 rounded-xl p-3.5 text-center">
+              <div class="font-display text-2xl font-bold text-[#FFB703]">Daily</div>
+              <div class="text-xs text-[#FDF3E3]/80">Farm-Fresh Prep</div>
+            </div>
+            <div class="bg-[#211816] border border-[#F48C06]/25 rounded-xl p-3.5 text-center">
+              <div class="font-display text-2xl font-bold text-[#FFB703]">4.9 ★</div>
+              <div class="text-xs text-[#FDF3E3]/80">Guest Satisfaction</div>
+            </div>
+            <div class="bg-[#211816] border border-[#F48C06]/25 rounded-xl p-3.5 text-center">
+              <div class="font-display text-2xl font-bold text-[#FFB703]">8 Zones</div>
+              <div class="text-xs text-[#FDF3E3]/80">Global & Local Menu</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <img
+            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80"
+            alt="Taste Town Restaurant Interior"
+            class="w-full h-64 sm:h-72 object-cover rounded-2xl border border-[#FFB703]/30 shadow-xl"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1577219491135-ce391730fb4c?auto=format&fit=crop&w=900&q=80"
+            alt="Taste Town Head Chef in Kitchen"
+            class="w-full h-64 sm:h-72 object-cover rounded-2xl border border-[#FFB703]/30 shadow-xl sm:mt-6"
+          />
+        </div>
+      </div>
+
+      <!-- Chefs Row -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#211816] border border-[#F48C06]/25 rounded-2xl p-5 flex items-center gap-4">
+          <img
+            src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=300&q=80"
+            alt="Chef Elena Conti"
+            class="w-16 h-16 rounded-full object-cover border-2 border-[#FFB703] shrink-0"
+          />
+          <div>
+            <h3 class="font-display text-lg font-bold text-[#FFF8EE]">Chef Elena Conti</h3>
+            <div class="text-xs font-bold text-[#FFB703]">Pizza, Pasta & Pastry Lead</div>
+            <p class="text-xs text-[#FDF3E3]/75 mt-1">Fermented sourdough crusts, risottos & molten desserts.</p>
+          </div>
+        </div>
+
+        <div class="bg-[#211816] border border-[#F48C06]/25 rounded-2xl p-5 flex items-center gap-4">
+          <img
+            src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?auto=format&fit=crop&w=300&q=80"
+            alt="Chef Vikram Rao"
+            class="w-16 h-16 rounded-full object-cover border-2 border-[#FFB703] shrink-0"
+          />
+          <div>
+            <h3 class="font-display text-lg font-bold text-[#FFF8EE]">Chef Vikram Rao</h3>
+            <div class="text-xs font-bold text-[#FFB703]">Master of Dum & Tandoor</div>
+            <p class="text-xs text-[#FDF3E3]/75 mt-1">Slow-cooked biryanis, gravies & freshly ground spices.</p>
+          </div>
+        </div>
+
+        <div class="bg-[#211816] border border-[#F48C06]/25 rounded-2xl p-5 flex items-center gap-4">
+          <img
+            src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?auto=format&fit=crop&w=300&q=80"
+            alt="Chef Lin Wei"
+            class="w-16 h-16 rounded-full object-cover border-2 border-[#FFB703] shrink-0"
+          />
+          <div>
+            <h3 class="font-display text-lg font-bold text-[#FFF8EE]">Chef Lin Wei</h3>
+            <div class="text-xs font-bold text-[#FFB703]">Wok & Grill Specialist</div>
+            <p class="text-xs text-[#FDF3E3]/75 mt-1">High-heat stir-fries, crisp starters & gourmet grills.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHEF'S SPECIAL & POPULAR DISHES -->
+  <section id="specials" class="py-20 bg-gradient-to-b from-[#120D0C] to-[#1B1312] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#FFB703]">
+            Signature Spotlight
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-[#FFF8EE] mt-1">
+            Chef’s Special & Popular Dishes
+          </h2>
+        </div>
+        <p class="text-sm text-[#FDF3E3]/80 max-w-md">
+          Our six signature favorites—tap Customize to adjust spice, portion size, cheese, or add-ons.
+        </p>
+      </div>
+
+      <div id="featuredDishesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- FULL FOOD MENU SECTION -->
+  <section id="menu" class="py-20 bg-[#120D0C] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#F48C06]">
+            Full Menu & Nutrition Guide
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-[#FFF8EE] mt-1">
+            Explore All Categories
+          </h2>
+        </div>
+
+        <!-- Search & Veg / Non-Veg Filter -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input
+            id="menuSearchInput"
+            type="text"
+            placeholder="Search dishes, ingredients, or cuisine..."
+            class="w-full sm:w-72 bg-[#211816] border border-[#F48C06]/35 focus:border-[#FFB703] rounded-xl px-4 py-2.5 text-sm text-[#FFF8EE] placeholder-[#FDF3E3]/50 focus:outline-none"
+          />
+          <div class="inline-flex rounded-xl bg-[#211816] border border-[#F48C06]/35 p-1">
+            <button type="button" data-diet="All" class="diet-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-extrabold bg-[#FFB703] text-[#120D0C] cursor-pointer">
+              All
+            </button>
+            <button type="button" data-diet="Veg" class="diet-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-extrabold text-[#FDF3E3]/80 hover:text-white cursor-pointer">
+              Veg
+            </button>
+            <button type="button" data-diet="Non-Veg" class="diet-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-extrabold text-[#FDF3E3]/80 hover:text-white cursor-pointer">
+              Non-Veg
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div id="categoryChips" class="flex items-center gap-2 overflow-x-auto pb-2"></div>
+
+      <!-- Menu Cards Grid -->
+      <div id="fullMenuGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- SPECIAL OFFERS & DISCOUNTS -->
+  <section id="offers" class="py-20 bg-[#191211] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#FFB703]">
+            Limited-Time Promotions
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-[#FFF8EE] mt-1">
+            Special Offers & Discounts
+          </h2>
+        </div>
+        <div class="inline-flex items-center gap-2 bg-[#6E0D15] border border-[#FFB703]/45 px-4 py-2.5 rounded-xl text-sm">
+          <span class="text-[#FDF3E3]">Offer Countdown:</span>
+          <span id="offersCountdown" class="font-mono font-extrabold text-[#FFB703]">02h : 45m : 12s</span>
+        </div>
+      </div>
+
+      <div id="offersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- AI-POWERED SPECIAL FEATURES HUB -->
+  <section id="ai-hub" class="py-20 bg-[#120D0C] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <!-- AI Food Recommendation -->
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#FFB703]">
+            AI Culinary Matchmaker
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-[#FFF8EE] mt-1">
+            AI Food Recommendation
+          </h2>
+          <p class="text-sm text-[#FDF3E3]/80 mt-1">
+            Pick your craving, spice level, budget, and dietary preference for tailored dish picks.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-5 bg-[#201715] border border-[#FFB703]/35 rounded-2xl p-6 space-y-4">
+            <div>
+              <label for="aiCravingSelect" class="block text-xs font-bold uppercase tracking-wider text-[#FFB703] mb-1.5">
+                Craving / Style
+              </label>
+              <select id="aiCravingSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]">
+                <option value="Hearty">Hearty & Filling</option>
+                <option value="Crispy & Quick">Crispy & Quick Bite</option>
+                <option value="Sweet & Chill">Sweet & Refreshing</option>
+                <option value="Spicy Kick">Bold & Spicy</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="aiSpiceSelect" class="block text-xs font-bold uppercase tracking-wider text-[#FFB703] mb-1.5">
+                Spice Level
+              </label>
+              <select id="aiSpiceSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]">
+                <option value="Mild">Mild</option>
+                <option value="Medium-Spicy" selected>Medium-Spicy</option>
+                <option value="Spicy">Spicy</option>
+                <option value="None">Sweet / Non-Spicy</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="aiDietSelect" class="block text-xs font-bold uppercase tracking-wider text-[#FFB703] mb-1.5">
+                Dietary Requirement
+              </label>
+              <select id="aiDietSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]">
+                <option value="Any">Any Diet</option>
+                <option value="Veg">Vegetarian Only</option>
+                <option value="Non-Veg">Non-Vegetarian</option>
+                <option value="High-Protein">High Protein</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-bold text-[#FFB703] mb-1.5">
+                <span>Max Budget per Dish</span>
+                <span id="aiBudgetValue">$20</span>
+              </div>
+              <input id="aiBudgetRange" type="range" min="6" max="25" value="20" class="w-full accent-[#FFB703] cursor-pointer" />
+            </div>
+          </div>
+
+          <div id="aiRecommendationsList" class="lg:col-span-7 space-y-4"></div>
+        </div>
+      </div>
+
+      <!-- Interactive Live Order Tracking & Loyalty Banner -->
+      <div id="orderTrackerSection" class="bg-[#1D1514] border border-[#FFB703]/35 rounded-2xl p-6 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-widest text-[#F48C06]">
+              Live Order Tracking (Simulated Progress)
+            </span>
+            <h3 class="font-display text-2xl sm:text-3xl font-bold text-[#FFF8EE] mt-0.5">
+              Track Your Meal Status
+            </h3>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="trackedOrderSelect" aria-label="Tracked Order ID" class="bg-[#140F0E] border border-[#FFB703]/40 rounded-xl px-3 py-2 text-xs sm:text-sm text-[#FFF8EE]"></select>
+            <button
+              id="advanceOrderStageBtn"
+              type="button"
+              class="bg-[#FFB703] hover:bg-[#F48C06] text-[#120D0C] font-extrabold text-xs px-4 py-2.5 rounded-xl transition-colors cursor-pointer"
+            >
+              Advance Status
+            </button>
+          </div>
+        </div>
+
+        <div id="orderProgressSteps" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE RESERVATION SECTION -->
+  <section id="reserve" class="py-20 bg-[#181211] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div class="lg:col-span-7 bg-[#211816] border border-[#FFB703]/35 rounded-2xl p-6 sm:p-8 space-y-5">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#FFB703]">
+            Smart Table Reservation
+          </span>
+          <h2 class="font-display text-3xl font-bold text-[#FFF8EE] mt-1">
+            Book Your Table at Taste Town
+          </h2>
+          <p class="text-sm text-[#FDF3E3]/80 mt-1">
+            Choose your preferred date, guest count, indoor or outdoor seating, and available time slot.
+          </p>
+        </div>
+
+        <form id="reservationForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label for="resDateInput" class="block text-xs font-bold text-[#FFB703] mb-1.5">Date *</label>
+              <input id="resDateInput" type="date" value="2026-11-26" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]" />
+            </div>
+
+            <div>
+              <label for="resGuestsInput" class="block text-xs font-bold text-[#FFB703] mb-1.5">Guests *</label>
+              <input id="resGuestsInput" type="number" min="1" max="16" value="4" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]" />
+            </div>
+
+            <div>
+              <label for="resSeatingSelect" class="block text-xs font-bold text-[#FFB703] mb-1.5">Seating Area</label>
+              <select id="resSeatingSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]">
+                <option value="Indoor — Amber Dining Hall">Indoor — Amber Dining Hall</option>
+                <option value="Indoor — Chef's Table">Indoor — Chef's Table</option>
+                <option value="Outdoor — Courtyard Garden">Outdoor — Courtyard Garden</option>
+                <option value="Outdoor — Lantern Terrace">Outdoor — Lantern Terrace</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-xs font-bold text-[#FFB703] mb-2">
+              Real-Time Table Availability Slots (Sample Availability)
+            </div>
+            <div id="reservationSlotsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
+          </div>
+
+          <div>
+            <label for="resNotesInput" class="block text-xs font-bold text-[#FFB703] mb-1.5">Special Requests</label>
+            <input
+              id="resNotesInput"
+              type="text"
+              placeholder="Anniversary setup, baby high chair, quiet corner..."
+              class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE] placeholder-[#FDF3E3]/45"
+            />
+          </div>
+
+          <p id="reservationError" class="text-xs font-semibold text-rose-400 hidden"></p>
+
+          <button
+            type="submit"
+            class="bg-gradient-to-r from-[#E85D04] to-[#FFB703] hover:brightness-110 text-[#120D0C] font-extrabold text-sm px-7 py-3.5 rounded-xl shadow-lg transition-all cursor-pointer"
+          >
+            Confirm Table Reservation (Demo)
+          </button>
+        </form>
+      </div>
+
+      <div class="lg:col-span-5 space-y-4">
+        <div id="reservationConfirmationCard" class="bg-gradient-to-br from-[#6E0D15] to-[#231514] border-2 border-[#FFB703]/60 rounded-2xl p-6 space-y-3 shadow-xl">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-[#FFB703]">
+            Reservation Status
+          </div>
+          <h3 class="font-display text-2xl font-bold text-[#FFF8EE]">Ready When You Are</h3>
+          <p class="text-xs sm:text-sm text-[#FDF3E3]/85 leading-relaxed">
+            Submit the reservation form to generate a local booking confirmation card and save it to your Customer Dashboard.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER REVIEWS SECTION -->
+  <section class="py-20 bg-[#120D0C] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#FFB703]">
+            Verified Diner Feedback
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-[#FFF8EE] mt-1">
+            Customer Reviews & Ratings
+          </h2>
+        </div>
+
+        <div class="inline-flex items-center gap-3 bg-[#211816] border border-[#FFB703]/40 px-4 py-2.5 rounded-2xl">
+          <span id="avgRatingDisplay" class="font-display text-3xl font-bold text-[#FFB703]">4.9</span>
+          <div class="text-xs">
+            <div class="text-[#FFB703] font-bold">★★★★★</div>
+            <div id="reviewCountDisplay" class="text-[#FDF3E3]/75">Based on 4 reviews</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Slider Card -->
+        <div class="lg:col-span-7 bg-[#201715] border border-[#FFB703]/30 rounded-2xl p-6 sm:p-8 space-y-5">
+          <div id="reviewSliderCard" class="space-y-4"></div>
+          <div class="flex items-center justify-between pt-2 border-t border-white/10">
+            <span class="text-xs text-[#FDF3E3]/65">Auto-rotating guest highlights</span>
+            <div class="flex items-center gap-2">
+              <button id="prevReviewBtn" type="button" aria-label="Previous Review" class="w-9 h-9 rounded-full bg-[#140F0E] border border-[#F48C06]/35 hover:border-[#FFB703] text-[#FFF8EE] cursor-pointer">
+                ‹
+              </button>
+              <button id="nextReviewBtn" type="button" aria-label="Next Review" class="w-9 h-9 rounded-full bg-[#140F0E] border border-[#F48C06]/35 hover:border-[#FFB703] text-[#FFF8EE] cursor-pointer">
+                ›
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Review Form -->
+        <form id="reviewSubmitForm" class="lg:col-span-5 bg-[#201715] border border-[#F48C06]/30 rounded-2xl p-6 space-y-3.5">
+          <h3 class="font-display text-2xl font-bold text-[#FFF8EE]">Rate & Review a Dish</h3>
+
+          <input id="revAuthorInput" type="text" placeholder="Your Name *" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]" />
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="revDishSelect" class="block text-[11px] font-bold text-[#FFB703] mb-1">Dish</label>
+              <select id="revDishSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3 py-2 text-xs text-[#FFF8EE]"></select>
+            </div>
+            <div>
+              <label for="revRatingSelect" class="block text-[11px] font-bold text-[#FFB703] mb-1">Rating</label>
+              <select id="revRatingSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3 py-2 text-xs text-[#FFF8EE]">
+                <option value="5">5 ★ — Outstanding</option>
+                <option value="4.8">4.8 ★ — Delicious</option>
+                <option value="4">4 ★ — Very Good</option>
+                <option value="3">3 ★ — Average</option>
+              </select>
+            </div>
+          </div>
+
+          <textarea id="revCommentInput" rows="3" placeholder="Tell us about the taste, spice, or presentation... *" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]"></textarea>
+
+          <div class="flex items-center justify-between gap-2">
+            <label class="inline-flex items-center gap-2 text-xs font-semibold text-[#FFB703] bg-[#140F0E] border border-[#F48C06]/35 px-3 py-2 rounded-xl cursor-pointer">
+              <span>Upload Photo</span>
+              <input id="revPhotoInput" type="file" accept="image/*" class="hidden" />
+            </label>
+            <span id="revPhotoStatus" class="text-[11px] text-[#FDF3E3]/70">No photo attached</span>
+          </div>
+
+          <p id="revFormMessage" class="text-xs font-semibold text-[#FFB703] hidden"></p>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-[#8B111B] to-[#E85D04] hover:brightness-110 text-[#FFF8EE] font-extrabold text-sm py-2.5 rounded-xl transition-all cursor-pointer">
+            Publish Review
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESTAURANT GALLERY WITH LIGHTBOX -->
+  <section id="gallery" class="py-20 bg-[#181211] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-[#F48C06]">
+            Inside Taste Town
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-[#FFF8EE] mt-1">
+            Restaurant & Culinary Gallery
+          </h2>
+        </div>
+
+        <div id="galleryFilterChips" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT & LOCATION -->
+  <section id="contact" class="py-20 bg-[#120D0C] border-b border-[#F48C06]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div class="lg:col-span-5 bg-[#201715] border border-[#FFB703]/35 rounded-2xl p-6 sm:p-8 space-y-5">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-[#FFB703]">
+          Visit & Reach Us
+        </span>
+        <h2 class="font-display text-3xl font-bold text-[#FFF8EE]">Contact & Location</h2>
+
+        <div class="space-y-3 text-sm text-[#FDF3E3]/85">
+          <div>
+            <div class="font-bold text-[#FFB703]">Address</div>
+            <div>418 Culinary Avenue, Flavor District, Metro City</div>
+          </div>
+          <div>
+            <div class="font-bold text-[#FFB703]">Phone & Email</div>
+            <div>+1 (555) 234-8890 • hello@tastetown-demo.example</div>
+          </div>
+          <div>
+            <div class="font-bold text-[#FFB703]">Opening Hours</div>
+            <div class="text-xs space-y-0.5 mt-0.5">
+              <div>Mon – Thu: 11:00 AM – 10:30 PM</div>
+              <div>Fri – Sun: 11:00 AM – 11:30 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a
+            href="https://maps.google.com/?q=418+Culinary+Avenue"
+            target="_blank"
+            rel="noreferrer"
+            class="bg-[#FFB703] hover:bg-[#F48C06] text-[#120D0C] font-extrabold text-xs px-4 py-2.5 rounded-xl transition-colors"
+          >
+            Get Directions
+          </a>
+          <button
+            id="toggleMapEmbedBtn"
+            type="button"
+            class="bg-[#2B201D] hover:bg-[#3A2B27] border border-[#FFB703]/35 text-[#FFF8EE] font-bold text-xs px-4 py-2.5 rounded-xl cursor-pointer"
+          >
+            Toggle Map View
+          </button>
+          <a
+            href="https://wa.me/15552348890?text=Hello%20Taste%20Town!%20I%20would%20like%20assistance."
+            target="_blank"
+            rel="noreferrer"
+            class="bg-emerald-700 hover:bg-emerald-600 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-colors"
+          >
+            WhatsApp Support
+          </a>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2 text-xs font-semibold text-[#FDF3E3]/80">
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="hover:text-[#FFB703] underline">Instagram</a>
+          <a href="https://facebook.com" target="_blank" rel="noreferrer" class="hover:text-[#FFB703] underline">Facebook</a>
+          <a href="https://youtube.com" target="_blank" rel="noreferrer" class="hover:text-[#FFB703] underline">YouTube</a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 bg-[#201715] border border-[#F48C06]/25 rounded-2xl overflow-hidden min-h-[340px]">
+        <div id="mapPlaceholder" class="relative h-80 flex items-center justify-center p-6 text-center">
+          <img
+            src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80"
+            alt="Taste Town Dining Lounge"
+            class="absolute inset-0 w-full h-full object-cover opacity-30"
+          />
+          <div class="relative z-10 bg-[#120D0C]/90 border border-[#FFB703]/40 rounded-2xl p-6 max-w-md space-y-2">
+            <div class="font-display text-xl font-bold text-[#FFB703]">418 Culinary Avenue</div>
+            <p class="text-xs text-[#FDF3E3]/80">
+              Click “Toggle Map View” to load an interactive map embed or “Get Directions” to open Google Maps.
+            </p>
+          </div>
+        </div>
+        <iframe
+          id="interactiveMapFrame"
+          title="Taste Town Location Map"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-74.01%2C40.71%2C-73.98%2C40.73&layer=mapnik"
+          class="w-full h-80 border-0 hidden"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#0D0909] pt-16 pb-10 text-[#FDF3E3]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4 space-y-4">
+          <div class="flex items-center gap-3">
+            <svg viewBox="0 0 64 64" class="w-11 h-11" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="#6E0D15" stroke="#FFB703" stroke-width="2.5" />
+              <path d="M17 38C17 29.7 23.7 23 32 23C40.3 23 47 29.7 47 38H17Z" fill="#FFF8EE" />
+              <rect x="14" y="39" width="36" height="3.5" rx="1.75" fill="#FFB703" />
+            </svg>
+            <div>
+              <div class="font-display text-2xl font-bold text-[#FFB703]">TASTE TOWN</div>
+              <div class="text-xs text-[#FDF3E3]/75">The Art of Delicious Food</div>
+            </div>
+          </div>
+          <p class="text-sm text-[#FDF3E3]/75 leading-relaxed">
+            Warm hospitality, rich flavors, fresh ingredients, and effortless online ordering & table reservations.
+          </p>
+        </div>
+
+        <div class="lg:col-span-2 space-y-2 text-sm">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-[#FFB703] mb-2">Quick Links</div>
+          <div><a href="#home" class="hover:text-[#FFB703]">Home</a></div>
+          <div><a href="#about" class="hover:text-[#FFB703]">About</a></div>
+          <div><a href="#menu" class="hover:text-[#FFB703]">Menu</a></div>
+          <div><a href="#offers" class="hover:text-[#FFB703]">Special Offers</a></div>
+          <div><a href="#reserve" class="hover:text-[#FFB703]">Reserve Table</a></div>
+        </div>
+
+        <div class="lg:col-span-3 space-y-2 text-sm">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-[#FFB703] mb-2">Menu Categories</div>
+          <div id="footerCategoriesList" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <div class="lg:col-span-3 space-y-3">
+          <div class="text-xs font-extrabold uppercase tracking-wider text-[#FFB703]">Newsletter</div>
+          <p class="text-xs text-[#FDF3E3]/75">
+            Subscribe for seasonal dishes, tasting nights, and special offers.
+          </p>
+          <form id="newsletterForm" class="flex gap-2">
+            <input
+              id="newsletterEmailInput"
+              type="email"
+              placeholder="you@example.com"
+              class="flex-1 bg-[#1C1413] border border-[#F48C06]/35 rounded-xl px-3 py-2 text-xs text-[#FFF8EE]"
+            />
+            <button type="submit" class="bg-[#FFB703] hover:bg-[#F48C06] text-[#120D0C] font-extrabold text-xs px-3.5 py-2 rounded-xl cursor-pointer">
+              Join
+            </button>
+          </form>
+          <p id="newsletterFeedback" class="text-xs text-[#FFB703] hidden"></p>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#FDF3E3]/65">
+        <div>© <span id="footerYear"></span> TASTE TOWN – The Art of Delicious Food. All rights reserved.</div>
+        <div class="flex items-center gap-4">
+          <button type="button" onclick="openLegalModal('privacy')" class="hover:text-[#FFB703] underline cursor-pointer">
+            Privacy Policy
+          </button>
+          <button type="button" onclick="openLegalModal('terms')" class="hover:text-[#FFB703] underline cursor-pointer">
+            Terms & Conditions
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING AI FOOD CHATBOT -->
+  <div class="fixed bottom-5 right-5 z-40">
+    <div id="chatbotPanel" class="hidden mb-3 w-80 sm:w-96 bg-[#1C1413] border border-[#FFB703]/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[470px]">
+      <div class="bg-gradient-to-r from-[#8B111B] to-[#6E0D15] px-4 py-3 flex items-center justify-between border-b border-[#FFB703]/30">
+        <div>
+          <div class="text-sm font-bold text-[#FFF8EE]">Taste Town AI Concierge</div>
+          <div class="text-[11px] text-[#FDF3E3]/80">Ask about menu, ingredients, hours & offers</div>
+        </div>
+        <button id="closeChatbotBtn" type="button" aria-label="Close Chatbot" class="text-[#FFF8EE] hover:text-[#FFB703] font-bold px-2 cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <div class="px-3 pt-2.5 flex flex-wrap gap-1.5">
+        <button type="button" onclick="sendBotPrompt('What are your opening hours?')" class="text-[11px] bg-[#291E1C] hover:border-[#FFB703] border border-white/10 px-2.5 py-1 rounded-full text-[#FFB703] cursor-pointer">
+          Timings
+        </button>
+        <button type="button" onclick="sendBotPrompt('Tell me about Special Chicken Biryani')" class="text-[11px] bg-[#291E1C] hover:border-[#FFB703] border border-white/10 px-2.5 py-1 rounded-full text-[#FFB703] cursor-pointer">
+          Biryani Info
+        </button>
+        <button type="button" onclick="sendBotPrompt('What active promo codes do you have?')" class="text-[11px] bg-[#291E1C] hover:border-[#FFB703] border border-white/10 px-2.5 py-1 rounded-full text-[#FFB703] cursor-pointer">
+          Promo Codes
+        </button>
+      </div>
+
+      <div id="chatbotMessages" class="flex-1 overflow-y-auto p-3.5 space-y-2.5 text-xs"></div>
+
+      <form id="chatbotForm" class="p-2.5 bg-[#120D0C] border-t border-white/10 flex gap-2">
+        <input id="chatbotInput" type="text" placeholder="Ask anything about Taste Town..." class="flex-1 bg-[#201715] border border-[#F48C06]/35 rounded-xl px-3 py-2 text-xs text-[#FFF8EE]" />
+        <button type="submit" class="bg-[#FFB703] hover:bg-[#F48C06] text-[#120D0C] font-extrabold text-xs px-3.5 py-2 rounded-xl cursor-pointer">
+          Send
+        </button>
+      </form>
+    </div>
+
+    <button
+      id="toggleChatbotBtn"
+      type="button"
+      class="ml-auto flex items-center gap-2 bg-gradient-to-r from-[#8B111B] via-[#E85D04] to-[#FFB703] text-[#120D0C] font-extrabold text-xs sm:text-sm px-4 py-3 rounded-full shadow-2xl hover:scale-105 transition-transform cursor-pointer"
+    >
+      <span>AI Food Chat</span>
+    </button>
+  </div>
+
+  <!-- SMART CUSTOMIZATION MODAL -->
+  <div id="customizeModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-[#1E1614] border border-[#FFB703]/45 rounded-2xl max-w-lg w-full p-6 space-y-5 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-[#FFB703]">Smart Food Customization</span>
+          <h3 id="customDishTitle" class="font-display text-2xl font-bold text-[#FFF8EE]"></h3>
+        </div>
+        <button id="closeCustomizeBtn" type="button" class="px-2.5 py-1 rounded-lg bg-[#2C201D] text-[#FFF8EE] font-bold cursor-pointer">✕</button>
+      </div>
+
+      <div>
+        <label for="customSpiceSelect" class="block text-xs font-bold text-[#FFB703] mb-1.5">Spice Level</label>
+        <select id="customSpiceSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]">
+          <option value="Mild">Mild</option>
+          <option value="Medium-Spicy">Medium-Spicy</option>
+          <option value="Spicy">Spicy</option>
+          <option value="Extra Hot">Extra Hot</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="customPortionSelect" class="block text-xs font-bold text-[#FFB703] mb-1.5">Portion Size</label>
+        <select id="customPortionSelect" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-sm text-[#FFF8EE]">
+          <option value="Regular|0">Regular (+$0.00)</option>
+          <option value="Large Feast|3.5">Large Feast (+$3.50)</option>
+        </select>
+      </div>
+
+      <label class="flex items-center justify-between bg-[#140F0E] border border-[#F48C06]/25 rounded-xl p-3 cursor-pointer">
+        <span class="text-xs sm:text-sm font-semibold text-[#FFF8EE]">Extra Cheese (+$1.75)</span>
+        <input id="customExtraCheeseCheckbox" type="checkbox" class="w-4 h-4 accent-[#FFB703]" />
+      </label>
+
+      <div id="customAddonsList" class="space-y-2"></div>
+
+      <div>
+        <label for="customNotesInput" class="block text-xs font-bold text-[#FFB703] mb-1.5">Extra Ingredients / Notes</label>
+        <input id="customNotesInput" type="text" placeholder="Extra cilantro, less oil, side dip..." class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-xs text-[#FFF8EE]" />
+      </div>
+
+      <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-3">
+        <div>
+          <div class="text-[11px] text-[#FDF3E3]/70">Customized Price</div>
+          <div id="customFinalPrice" class="text-xl font-extrabold text-[#FFB703]">$0.00</div>
+        </div>
+        <button id="confirmCustomizeBtn" type="button" class="bg-gradient-to-r from-[#E85D04] to-[#FFB703] text-[#120D0C] font-extrabold text-sm px-5 py-3 rounded-xl cursor-pointer">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART & CHECKOUT DRAWER -->
+  <div id="cartDrawerOverlay" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm justify-end">
+    <div class="w-full max-w-lg bg-[#191211] border-l border-[#FFB703]/40 h-full flex flex-col justify-between overflow-y-auto">
+      <div class="p-5 sm:p-6 space-y-5">
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+          <h2 class="font-display text-2xl font-bold text-[#FFF8EE]">Your Order Cart</h2>
+          <button id="closeCartBtn" type="button" class="px-2.5 py-1 rounded-xl bg-[#291E1C] text-[#FFF8EE] font-bold cursor-pointer">✕</button>
+        </div>
+
+        <!-- Delivery / Takeaway Toggle -->
+        <div class="grid grid-cols-2 gap-2 bg-[#120D0C] p-1.5 rounded-xl border border-[#F48C06]/25">
+          <button id="modeDeliveryBtn" type="button" class="py-2 rounded-lg text-xs font-extrabold bg-[#FFB703] text-[#120D0C] cursor-pointer">
+            Delivery
+          </button>
+          <button id="modeTakeawayBtn" type="button" class="py-2 rounded-lg text-xs font-extrabold text-[#FDF3E3]/80 cursor-pointer">
+            Takeaway
+          </button>
+        </div>
+
+        <div id="cartItemsContainer" class="space-y-3"></div>
+
+        <!-- Coupon & Loyalty Redemption -->
+        <div class="bg-[#221917] border border-[#F48C06]/25 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between text-xs font-bold text-[#FFB703]">
+            <span>Promo Code</span>
+            <button id="redeemLoyaltyInCartBtn" type="button" class="underline text-[#F48C06] cursor-pointer">
+              Redeem 150 pts (15% Off)
+            </button>
+          </div>
+          <div class="flex gap-2">
+            <input id="couponCodeInput" type="text" placeholder="FAMILY20, STUDENT15, BOGO2026..." class="flex-1 bg-[#140F0E] border border-[#F48C06]/35 rounded-lg px-3 py-2 text-xs text-[#FFF8EE]" />
+            <button id="applyCouponBtn" type="button" class="bg-[#FFB703] text-[#120D0C] font-extrabold text-xs px-3.5 py-2 rounded-lg cursor-pointer">
+              Apply
+            </button>
+          </div>
+          <p id="couponStatusMsg" class="text-[11px] text-[#FFB703] hidden"></p>
+        </div>
+
+        <!-- Customer Form -->
+        <form id="checkoutForm" class="space-y-3">
+          <div>
+            <input id="checkoutNameInput" type="text" placeholder="Customer Name *" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-xs text-[#FFF8EE]" />
+            <p id="errCheckoutName" class="text-[11px] text-rose-400 mt-1 hidden"></p>
+          </div>
+          <div>
+            <input id="checkoutPhoneInput" type="tel" placeholder="Phone Number *" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-xs text-[#FFF8EE]" />
+            <p id="errCheckoutPhone" class="text-[11px] text-rose-400 mt-1 hidden"></p>
+          </div>
+          <div id="checkoutAddressWrapper">
+            <input id="checkoutAddressInput" type="text" placeholder="Delivery Address *" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2.5 text-xs text-[#FFF8EE]" />
+            <p id="errCheckoutAddress" class="text-[11px] text-rose-400 mt-1 hidden"></p>
+          </div>
+          <p id="errCheckoutCart" class="text-xs font-semibold text-rose-400 hidden"></p>
+        </form>
+      </div>
+
+      <div class="p-5 sm:p-6 bg-[#120D0C] border-t border-[#FFB703]/30 space-y-3">
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between text-[#FDF3E3]/80">
+            <span>Subtotal</span>
+            <span id="billSubtotal">$0.00</span>
+          </div>
+          <div id="billDiscountRow" class="hidden justify-between text-emerald-400 font-semibold">
+            <span>Discount</span>
+            <span id="billDiscount">-$0.00</span>
+          </div>
+          <div class="flex justify-between text-[#FDF3E3]/80">
+            <span>Tax (8%)</span>
+            <span id="billTax">$0.00</span>
+          </div>
+          <div class="flex justify-between text-[#FDF3E3]/80">
+            <span>Delivery / Takeaway Fee</span>
+            <span id="billDelivery">$0.00</span>
+          </div>
+          <div class="flex justify-between text-base font-extrabold text-[#FFB703] pt-2 border-t border-white/10">
+            <span>Total (Simulated Local Checkout)</span>
+            <span id="billGrandTotal">$0.00</span>
+          </div>
+        </div>
+
+        <button type="submit" form="checkoutForm" class="w-full bg-gradient-to-r from-[#E85D04] to-[#FFB703] hover:brightness-110 text-[#120D0C] font-extrabold text-sm py-3.5 rounded-xl shadow-lg cursor-pointer">
+          Place Order (Demo)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER DASHBOARD MODAL -->
+  <div id="dashboardModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-[#1B1413] border border-[#FFB703]/45 rounded-2xl max-w-4xl w-full max-h-[88vh] overflow-hidden flex flex-col">
+      <div class="p-5 border-b border-white/10 flex items-center justify-between bg-[#241A18]">
+        <div>
+          <h2 class="font-display text-2xl font-bold text-[#FFB703]">Customer Dashboard</h2>
+          <p class="text-xs text-[#FDF3E3]/75">
+            Stored in localStorage • Loyalty Points: <strong id="dashPointsSummary">420</strong>
+          </p>
+        </div>
+        <button id="closeDashboardBtn" type="button" class="px-2.5 py-1 rounded-xl bg-[#120D0C] text-[#FFF8EE] font-bold cursor-pointer">✕</button>
+      </div>
+
+      <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <div class="md:w-52 bg-[#140F0E] border-b md:border-b-0 md:border-r border-white/10 p-3 flex md:flex-col gap-1.5 overflow-x-auto">
+          <button type="button" data-dashtab="orders" class="dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap bg-[#FFB703] text-[#120D0C] cursor-pointer">My Orders</button>
+          <button type="button" data-dashtab="history" class="dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap text-[#FDF3E3]/80 hover:bg-[#221816] cursor-pointer">Order History</button>
+          <button type="button" data-dashtab="reservations" class="dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap text-[#FDF3E3]/80 hover:bg-[#221816] cursor-pointer">Reservations</button>
+          <button type="button" data-dashtab="loyalty" class="dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap text-[#FDF3E3]/80 hover:bg-[#221816] cursor-pointer">Loyalty Points</button>
+          <button type="button" data-dashtab="favorites" class="dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap text-[#FDF3E3]/80 hover:bg-[#221816] cursor-pointer">Favorite Dishes</button>
+          <button type="button" data-dashtab="addresses" class="dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap text-[#FDF3E3]/80 hover:bg-[#221816] cursor-pointer">Saved Addresses</button>
+          <button type="button" data-dashtab="profile" class="dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap text-[#FDF3E3]/80 hover:bg-[#221816] cursor-pointer">Profile Settings</button>
+        </div>
+
+        <div id="dashboardContentArea" class="flex-1 p-5 overflow-y-auto space-y-4 text-sm"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY LIGHTBOX MODAL -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm items-center justify-center p-4" onclick="closeLightbox()">
+    <div class="max-w-3xl w-full bg-[#1C1413] border border-[#FFB703]/45 rounded-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <img id="lightboxImage" src="" alt="" class="w-full max-h-[70vh] object-cover" />
+      <div class="p-4 flex items-center justify-between gap-3">
+        <div>
+          <div id="lightboxCategory" class="text-xs font-extrabold uppercase text-[#FFB703]"></div>
+          <div id="lightboxTitle" class="font-display text-xl font-bold text-[#FFF8EE]"></div>
+        </div>
+        <button type="button" onclick="closeLightbox()" class="px-3 py-1.5 rounded-xl bg-[#2B201D] text-[#FFF8EE] font-bold cursor-pointer">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGAL MODAL -->
+  <div id="legalModal" class="fixed inset-0 z-50 hidden bg-black/75 items-center justify-center p-4" onclick="closeLegalModal()">
+    <div class="bg-[#1E1614] border border-[#FFB703]/45 rounded-2xl max-w-lg w-full p-6 space-y-4" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between">
+        <h3 id="legalModalTitle" class="font-display text-2xl font-bold text-[#FFB703]"></h3>
+        <button type="button" onclick="closeLegalModal()" class="px-2.5 py-1 rounded-lg bg-[#2B201D] text-[#FFF8EE] font-bold cursor-pointer">✕</button>
+      </div>
+      <p id="legalModalBody" class="text-xs sm:text-sm text-[#FDF3E3]/85 leading-relaxed"></p>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // TASTE TOWN – Single-File Interactive Application Logic
+    // =========================================================================
+
+    const TRANSLATIONS = {
+      en: {
+        tagline: 'The Art of Delicious Food',
+        navHome: 'Home',
+        navAbout: 'About',
+        navSpecials: 'Specials',
+        navMenu: 'Menu',
+        navOffers: 'Offers',
+        navAI: 'AI Chef',
+        navReserve: 'Reserve',
+        navGallery: 'Gallery',
+        navContact: 'Contact',
+        dashboardBtn: 'Dashboard',
+        cartBtn: 'Cart',
+        heroTitle: 'Good Food, Great Taste, Unforgettable Moments.',
+        heroSubtitle: 'Discover delicious flavors made with love and the freshest ingredients.',
+        explore: 'Explore Menu',
+        orderNow: 'Order Now'
+      },
+      hi: {
+        tagline: 'स्वादिष्ट भोजन की कला',
+        navHome: 'होम',
+        navAbout: 'हमारे बारे में',
+        navSpecials: 'विशेष',
+        navMenu: 'मेनू',
+        navOffers: 'ऑफ़र',
+        navAI: 'एआई शेफ़',
+        navReserve: 'आरक्षण',
+        navGallery: 'गैलरी',
+        navContact: 'संपर्क',
+        dashboardBtn: 'डैशबोर्ड',
+        cartBtn: 'कार्ट',
+        heroTitle: 'अच्छा भोजन, बेहतरीन स्वाद, अविस्मरणीय पल।',
+        heroSubtitle: 'प्यार और सबसे ताज़ी सामग्री से बने लाजवाब स्वादों का अनुभव करें।',
+        explore: 'मेनू देखें',
+        orderNow: 'अभी ऑर्डर करें'
+      },
+      te: {
+        tagline: 'రుచికరమైన వంటకాల కళ',
+        navHome: 'హోమ్',
+        navAbout: 'మా గురించి',
+        navSpecials: 'ప్రత్యేకాలు',
+        navMenu: 'మెనూ',
+        navOffers: 'ఆఫర్లు',
+        navAI: 'ఏఐ చెఫ్',
+        navReserve: 'బుకింగ్',
+        navGallery: 'గ్యాలరీ',
+        navContact: 'సంప్రదించండి',
+        dashboardBtn: 'డాష్‌బోర్డ్',
+        cartBtn: 'కార్ట్',
+        heroTitle: 'మంచి ఆహారం, గొప్ప రుచి, మరపురాని క్షణాలు.',
+        heroSubtitle: 'తాజా పదార్థాలు మరియు ప్రేమతో తయారు చేసిన రుచులను ఆస్వాదించండి.',
+        explore: 'మెనూ చూడండి',
+        orderNow: 'ఇప్పుడే ఆర్డర్ చేయండి'
+      }
+    };
+
+    const CATEGORIES = [
+      'All',
+      'Starters',
+      'Indian Cuisine',
+      'Chinese Cuisine',
+      'Italian Cuisine',
+      'Fast Food',
+      'Pizza and Burgers',
+      'Desserts',
+      'Beverages'
+    ];
+
+    const MENU_ITEMS = [
+      {
+        id: 'dish-1',
+        name: 'Special Chicken Biryani',
+        category: 'Indian Cuisine',
+        price: 16.99,
+        rating: 4.9,
+        reviews: 342,
+        isVeg: false,
+        badge: 'Best Seller',
+        featured: true,
+        spiceDefault: 'Medium-Spicy',
+        highProtein: true,
+        description: 'Aged basmati rice slow-cooked in dum with saffron, caramelized onions, whole spices & tender chicken.',
+        image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 680, protein: '42g', carbs: '74g', fats: '22g', allergens: ['Dairy (Ghee)', 'Cashews'] },
+        addons: [
+          { name: 'Saffron Raita', price: 2.0 },
+          { name: 'Masala Boiled Egg', price: 1.75 },
+          { name: 'Mirchi Ka Salan', price: 2.25 }
+        ]
+      },
+      {
+        id: 'dish-2',
+        name: 'Paneer Butter Masala',
+        category: 'Indian Cuisine',
+        price: 14.5,
+        rating: 4.8,
+        reviews: 289,
+        isVeg: true,
+        badge: "Chef's Special",
+        featured: true,
+        spiceDefault: 'Mild',
+        highProtein: true,
+        description: 'Soft cottage cheese simmered in a rich heirloom tomato, cashew & roasted fenugreek butter gravy.',
+        image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 540, protein: '21g', carbs: '28g', fats: '36g', allergens: ['Dairy', 'Cashews'] },
+        addons: [
+          { name: 'Garlic Butter Naan', price: 3.0 },
+          { name: 'Jeera Basmati Rice', price: 3.5 }
+        ]
+      },
+      {
+        id: 'dish-3',
+        name: 'Italian Cheese Pizza',
+        category: 'Pizza and Burgers',
+        price: 15.99,
+        rating: 4.8,
+        reviews: 215,
+        isVeg: true,
+        badge: 'Most Popular',
+        featured: true,
+        spiceDefault: 'Mild',
+        highProtein: false,
+        description: 'Hand-stretched sourdough crust baked with San Marzano tomato sauce, fior di latte & fresh basil.',
+        image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 760, protein: '31g', carbs: '86g', fats: '31g', allergens: ['Gluten', 'Dairy'] },
+        addons: [
+          { name: 'Chili Honey Drizzle', price: 1.5 },
+          { name: 'Roasted Olives & Garlic', price: 2.0 }
+        ]
+      },
+      {
+        id: 'dish-4',
+        name: 'Crispy French Fries',
+        category: 'Fast Food',
+        price: 6.49,
+        rating: 4.6,
+        reviews: 194,
+        isVeg: true,
+        badge: 'Most Popular',
+        featured: true,
+        spiceDefault: 'Mild',
+        highProtein: false,
+        description: 'Double-fried golden russet potato fries dusted with sea salt, cracked pepper & house herbs.',
+        image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 390, protein: '5g', carbs: '48g', fats: '19g', allergens: ['None'] },
+        addons: [
+          { name: 'Parmesan & Herb Dust', price: 2.0 },
+          { name: 'Warm Cheddar Dip', price: 1.75 }
+        ]
+      },
+      {
+        id: 'dish-5',
+        name: 'Chocolate Lava Cake',
+        category: 'Desserts',
+        price: 7.99,
+        rating: 4.9,
+        reviews: 310,
+        isVeg: true,
+        badge: 'New Arrival',
+        featured: true,
+        spiceDefault: 'None',
+        highProtein: false,
+        description: 'Warm dark chocolate cake with a molten fudge center paired with Madagascar vanilla gelato.',
+        image: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 470, protein: '7g', carbs: '52g', fats: '26g', allergens: ['Gluten', 'Dairy', 'Eggs'] },
+        addons: [
+          { name: 'Extra Vanilla Gelato Scoop', price: 2.25 },
+          { name: 'Crushed Roasted Nuts', price: 1.5 }
+        ]
+      },
+      {
+        id: 'dish-6',
+        name: 'Special Mango Milkshake',
+        category: 'Beverages',
+        price: 6.99,
+        rating: 4.8,
+        reviews: 178,
+        isVeg: true,
+        badge: "Chef's Special",
+        featured: true,
+        spiceDefault: 'None',
+        highProtein: false,
+        description: 'Velvety mango pulp blended with chilled milk, aromatic saffron strands & crushed pistachios.',
+        image: 'https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 340, protein: '11g', carbs: '49g', fats: '11g', allergens: ['Dairy', 'Pistachios'] },
+        addons: [
+          { name: 'Fresh Mango Chunks', price: 1.5 },
+          { name: 'Whipped Cream Topping', price: 1.25 }
+        ]
+      },
+      {
+        id: 'dish-7',
+        name: 'Crispy Garlic Bruschetta & Bites',
+        category: 'Starters',
+        price: 9.49,
+        rating: 4.7,
+        reviews: 118,
+        isVeg: true,
+        badge: 'New Arrival',
+        featured: false,
+        spiceDefault: 'Mild',
+        highProtein: false,
+        description: 'Toasted artisan bread topped with ripe cherry tomatoes, basil, olive oil & balsamic glaze.',
+        image: 'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 350, protein: '8g', carbs: '42g', fats: '15g', allergens: ['Gluten'] },
+        addons: [{ name: 'Herb Aioli Dip', price: 1.5 }]
+      },
+      {
+        id: 'dish-8',
+        name: 'Szechuan Chili Garlic Wok Noodles',
+        category: 'Chinese Cuisine',
+        price: 13.49,
+        rating: 4.7,
+        reviews: 162,
+        isVeg: true,
+        badge: 'Best Seller',
+        featured: false,
+        spiceDefault: 'Spicy',
+        highProtein: false,
+        description: 'High-flame wok noodles tossed with roasted garlic, Szechuan chili oil, scallions & crisp veggies.',
+        image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 590, protein: '16g', carbs: '78g', fats: '22g', allergens: ['Gluten', 'Soy', 'Sesame'] },
+        addons: [{ name: 'Crispy Tofu Cubes', price: 3.0 }]
+      },
+      {
+        id: 'dish-9',
+        name: 'Creamy Wild Mushroom Risotto',
+        category: 'Italian Cuisine',
+        price: 16.5,
+        rating: 4.8,
+        reviews: 134,
+        isVeg: true,
+        badge: "Chef's Special",
+        featured: false,
+        spiceDefault: 'Mild',
+        highProtein: false,
+        description: 'Arborio rice slowly simmered in aromatic broth with roasted mushrooms & aged parmesan.',
+        image: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 610, protein: '17g', carbs: '69g', fats: '28g', allergens: ['Dairy'] },
+        addons: [{ name: 'Grilled Chicken Strips', price: 4.5 }]
+      },
+      {
+        id: 'dish-10',
+        name: 'Smoky Double Smash Burger',
+        category: 'Pizza and Burgers',
+        price: 14.99,
+        rating: 4.9,
+        reviews: 267,
+        isVeg: false,
+        badge: 'Best Seller',
+        featured: false,
+        spiceDefault: 'Medium-Spicy',
+        highProtein: true,
+        description: 'Seared double patties, melted cheddar, caramelized onions, smoky sauce & toasted brioche.',
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 820, protein: '46g', carbs: '54g', fats: '45g', allergens: ['Gluten', 'Dairy', 'Eggs'] },
+        addons: [{ name: 'Jalapeño Relish', price: 1.25 }]
+      },
+      {
+        id: 'dish-11',
+        name: 'Crispy Herb Chicken Tenders',
+        category: 'Starters',
+        price: 11.49,
+        rating: 4.7,
+        reviews: 145,
+        isVeg: false,
+        badge: 'Most Popular',
+        featured: false,
+        spiceDefault: 'Medium-Spicy',
+        highProtein: true,
+        description: 'Golden herb-crusted chicken tenders served with tangy honey mustard & smoky dip.',
+        image: 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 510, protein: '38g', carbs: '34g', fats: '24g', allergens: ['Gluten', 'Dairy', 'Eggs'] },
+        addons: [{ name: 'Hot Honey Glaze', price: 1.5 }]
+      },
+      {
+        id: 'dish-12',
+        name: 'Saffron Pistachio Cold Brew',
+        category: 'Beverages',
+        price: 5.99,
+        rating: 4.8,
+        reviews: 98,
+        isVeg: true,
+        badge: 'New Arrival',
+        featured: false,
+        spiceDefault: 'None',
+        highProtein: false,
+        description: 'Slow-steeped cold brew coffee topped with spiced milk foam & toasted pistachio.',
+        image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=900&q=80',
+        nutrition: { calories: 195, protein: '4g', carbs: '22g', fats: '9g', allergens: ['Tree Nuts (Pistachio)'] },
+        addons: [{ name: 'Extra Espresso Shot', price: 1.75 }]
+      }
+    ];
+
+    const SPECIAL_OFFERS = [
+      {
+        id: 'off-1',
+        title: 'Buy One Get One Free',
+        desc: 'On select pizzas & burgers evening feast',
+        code: 'BOGO2026',
+        type: 'fixed',
+        value: 12.0,
+        minOrder: 20,
+        tag: '2X OFFER',
+        gradient: 'from-[#8B111B] to-[#6E0D15]'
+      },
+      {
+        id: 'off-2',
+        title: '20% Off on Family Meals',
+        desc: 'Save 20% on group & family orders $35+',
+        code: 'FAMILY20',
+        type: 'percent',
+        value: 20,
+        minOrder: 35,
+        tag: 'SAVE 20%',
+        gradient: 'from-[#E85D04] to-[#8B111B]'
+      },
+      {
+        id: 'off-3',
+        title: 'Weekend Special Combos',
+        desc: '$8 instant savings on weekend orders $25+',
+        code: 'WEEKEND8',
+        type: 'fixed',
+        value: 8.0,
+        minOrder: 25,
+        tag: 'WEEKEND',
+        gradient: 'from-[#6E0D15] to-[#D00000]'
+      },
+      {
+        id: 'off-4',
+        title: 'Student Discounts',
+        desc: '15% off orders $12+ for students',
+        code: 'STUDENT15',
+        type: 'percent',
+        value: 15,
+        minOrder: 12,
+        tag: 'STUDENT 15%',
+        gradient: 'from-[#8B111B] to-[#E85D04]'
+      },
+      {
+        id: 'off-5',
+        title: 'Free Dessert on Selected Orders',
+        desc: '$7.99 sweet treat credit on orders $30+',
+        code: 'SWEETFREE',
+        type: 'fixed',
+        value: 7.99,
+        minOrder: 30,
+        tag: 'FREE DESSERT',
+        gradient: 'from-[#6E0D15] to-[#F48C06]'
+      }
+    ];
+
+    const HERO_SLIDES = [
+      {
+        image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80',
+        caption: 'Warm Amber Ambiance & Artisanal Kitchen Craft'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1600&q=80',
+        caption: 'Signature Dum Biryani Cooked With Aromatic Spices'
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1600&q=80',
+        caption: 'Freshly Baked Pizzas, Wok Classics & Sweet Indulgences'
+      }
+    ];
+
+    const GALLERY_ITEMS = [
+      { id: 'g1', category: 'Popular Dishes', title: 'Special Chicken Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1000&q=80' },
+      { id: 'g2', category: 'Restaurant Interior', title: 'Golden Main Dining Room', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80' },
+      { id: 'g3', category: 'Chef Specialties', title: 'Chef Signature Plating', image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1000&q=80' },
+      { id: 'g4', category: 'Kitchen Preparation', title: 'Fresh Daily Prep & Ingredients', image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1000&q=80' },
+      { id: 'g5', category: 'Family Dining', title: 'Cozy Family Dining Tables', image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=80' },
+      { id: 'g6', category: 'Restaurant Events', title: 'Evening Gatherings & Celebrations', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1000&q=80' }
+    ];
+
+    const INITIAL_REVIEWS = [
+      {
+        id: 'r1',
+        name: 'Priya Nair',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+        rating: 5,
+        dish: 'Special Chicken Biryani',
+        comment: 'Rich saffron aroma, tender chicken, and balanced spices. Easily our favorite meal in town!',
+        photo: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80',
+        date: '2 days ago'
+      },
+      {
+        id: 'r2',
+        name: 'David Morales',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+        rating: 4.8,
+        dish: 'Italian Cheese Pizza',
+        comment: 'Crisp crust, generous melted cheese, and warm hospitality during our evening table visit.',
+        photo: null,
+        date: '5 days ago'
+      },
+      {
+        id: 'r3',
+        name: 'Ananya Verma',
+        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80',
+        rating: 5,
+        dish: 'Paneer Butter Masala',
+        comment: 'Silky tomato-cashew gravy with soft paneer and refreshing Mango Milkshake.',
+        photo: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=600&q=80',
+        date: '1 week ago'
+      },
+      {
+        id: 'r4',
+        name: 'Liam O’Connor',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+        rating: 4.9,
+        dish: 'Chocolate Lava Cake',
+        comment: 'Warm molten chocolate center with cold vanilla gelato—the ultimate dessert finish.',
+        photo: null,
+        date: '2 weeks ago'
+      }
+    ];
+
+    const ORDER_STAGES = ['Order Received', 'Preparing', 'Out for Delivery', 'Delivered'];
+    const STORAGE_KEY = 'tastetown_html_state_v1';
+
+    function getDefaultState() {
+      return {
+        lang: 'en',
+        cart: [],
+        orderMode: 'Delivery',
+        appliedCoupon: null,
+        orders: [
+          {
+            id: 'TT-8492',
+            date: 'Today',
+            mode: 'Delivery',
+            status: 'Preparing',
+            items: [{ dishId: 'dish-1', name: 'Special Chicken Biryani', price: 16.99, qty: 1, meta: 'Medium-Spicy • Regular' }],
+            total: 22.34,
+            address: '418 Culinary Avenue, Suite 4B'
+          }
+        ],
+        trackedOrderId: 'TT-8492',
+        reservations: [
+          {
+            id: 'RES-3091',
+            date: '2026-11-26',
+            time: '7:30 PM',
+            guests: 4,
+            seating: 'Indoor — Amber Dining Hall',
+            notes: 'Window table',
+            status: 'Confirmed (Demo)'
+          }
+        ],
+        reviews: INITIAL_REVIEWS,
+        favorites: ['dish-1', 'dish-2', 'dish-5'],
+        loyaltyPoints: 420,
+        addresses: [
+          { id: 'a1', label: 'Home', text: '418 Culinary Avenue, Suite 4B, Flavor District' },
+          { id: 'a2', label: 'Work', text: '920 Artisan Way, Floor 3, Downtown' }
+        ],
+        profile: {
+          name: 'Aarav Patel',
+          phone: '+1 (555) 234-8890',
+          address: '418 Culinary Avenue, Suite 4B, Flavor District'
+        }
+      };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return getDefaultState();
+        return { ...getDefaultState(), ...JSON.parse(raw) };
+      } catch {
+        return getDefaultState();
+      }
+    }
+
+    let state = loadState();
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch {
+        // Ignore storage errors
+      }
+    }
+
+    function showToast(message) {
+      const bar = document.getElementById('toastBar');
+      const msgEl = document.getElementById('toastMessage');
+      msgEl.textContent = message;
+      bar.classList.remove('hidden');
+      bar.classList.add('flex');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        bar.classList.add('hidden');
+        bar.classList.remove('flex');
+      }, 3000);
+    }
+
+    // =========================================================================
+    // LANGUAGE & HERO SLIDER & COUNTDOWN
+    // =========================================================================
+    let heroIdx = 0;
+    let countdownSeconds = 2 * 3600 + 45 * 60 + 12;
+
+    function applyLanguage(langCode) {
+      state.lang = TRANSLATIONS[langCode] ? langCode : 'en';
+      saveState();
+      const dict = TRANSLATIONS[state.lang];
+      document.getElementById('uiTagline').textContent = dict.tagline;
+      document.getElementById('heroTitle').textContent = dict.heroTitle;
+      document.getElementById('heroSubtitle').textContent = dict.heroSubtitle;
+      document.getElementById('heroExploreBtn').textContent = dict.explore;
+      document.getElementById('heroOrderNowBtn').textContent = dict.orderNow;
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+
+    function renderHeroSlides() {
+      const container = document.getElementById('heroSlidesContainer');
+      const dots = document.getElementById('heroDots');
+      container.innerHTML = HERO_SLIDES.map((s, i) => `
+        <img
+          src="${s.image}"
+          alt="${s.caption}"
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === heroIdx ? 'opacity-100' : 'opacity-0'}"
+        />
+      `).join('');
+
+      document.getElementById('heroSlideCaption').textContent = HERO_SLIDES[heroIdx].caption;
+
+      dots.innerHTML = HERO_SLIDES.map((_, i) => `
+        <button
+          type="button"
+          aria-label="Slide ${i + 1}"
+          onclick="setHeroSlide(${i})"
+          class="h-2.5 rounded-full transition-all cursor-pointer ${i === heroIdx ? 'w-8 bg-[#FFB703]' : 'w-2.5 bg-white/40'}"
+        ></button>
+      `).join('');
+    }
+
+    function setHeroSlide(i) {
+      heroIdx = (i + HERO_SLIDES.length) % HERO_SLIDES.length;
+      renderHeroSlides();
+    }
+
+    function tickTimers() {
+      if (countdownSeconds > 0) countdownSeconds -= 1;
+      else countdownSeconds = 2 * 3600 + 30 * 60;
+
+      const h = String(Math.floor(countdownSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((countdownSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(countdownSeconds % 60).padStart(2, '0');
+      const formatted = `${h}h : ${m}m : ${s}s`;
+      document.getElementById('heroCountdown').textContent = formatted;
+      document.getElementById('offersCountdown').textContent = formatted;
+    }
+
+    // =========================================================================
+    // FEATURED & FULL MENU RENDERING + CUSTOMIZATION
+    // =========================================================================
+    let activeCategory = 'All';
+    let activeDiet = 'All';
+    let searchTerm = '';
+
+    function dietBadgeHTML(isVeg) {
+      return isVeg
+        ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-950/90 text-emerald-300 border border-emerald-500/40"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>Veg</span>`
+        : `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-950/90 text-rose-300 border border-rose-500/40"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Non-Veg</span>`;
+    }
+
+    function renderFeaturedDishes() {
+      const grid = document.getElementById('featuredDishesGrid');
+      const featured = MENU_ITEMS.filter((d) => d.featured);
+      grid.innerHTML = featured.map((dish) => {
+        const isFav = state.favorites.includes(dish.id);
+        return `
+          <div class="dish-card bg-[#221917] border border-[#FFB703]/30 hover:border-[#FFB703] rounded-2xl overflow-hidden flex flex-col justify-between">
+            <div>
+              <div class="relative h-52 overflow-hidden">
+                <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover" />
+                <span class="absolute top-3 left-3 bg-[#8B111B] text-[#FFB703] border border-[#FFB703]/45 text-xs font-extrabold px-3 py-1 rounded-full">
+                  ${dish.badge}
+                </span>
+                <button
+                  type="button"
+                  onclick="toggleFavoriteDish('${dish.id}')"
+                  aria-label="Favorite ${dish.name}"
+                  class="absolute top-3 right-3 w-9 h-9 rounded-full bg-[#120D0C]/80 text-sm flex items-center justify-center cursor-pointer ${isFav ? 'text-[#FFB703]' : 'text-white/75'}"
+                >
+                  ${isFav ? '♥' : '♡'}
+                </button>
+              </div>
+              <div class="p-5 space-y-2.5">
+                <div class="flex items-center justify-between gap-2">
+                  ${dietBadgeHTML(dish.isVeg)}
+                  <span class="text-xs font-bold text-[#FFB703]">★ ${dish.rating} (${dish.reviews})</span>
+                </div>
+                <div class="flex items-baseline justify-between gap-2">
+                  <h3 class="font-display text-xl font-bold text-[#FFF8EE]">${dish.name}</h3>
+                  <span class="text-lg font-extrabold text-[#FFB703]">$${dish.price.toFixed(2)}</span>
+                </div>
+                <p class="text-xs sm:text-sm text-[#FDF3E3]/80 line-clamp-2">${dish.description}</p>
+              </div>
+            </div>
+            <div class="px-5 pb-5 pt-2 flex items-center gap-2">
+              <button type="button" onclick="addDishToCart('${dish.id}')" class="flex-1 bg-gradient-to-r from-[#E85D04] to-[#F48C06] hover:brightness-110 text-[#120D0C] font-extrabold text-xs sm:text-sm py-2.5 px-3 rounded-xl cursor-pointer">
+                + Add to Cart
+              </button>
+              <button type="button" onclick="openCustomizeModal('${dish.id}')" class="bg-[#6E0D15] hover:bg-[#8B111B] border border-[#FFB703]/40 text-[#FFB703] font-bold text-xs py-2.5 px-3 rounded-xl cursor-pointer">
+                Customize
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCategoryChips() {
+      const container = document.getElementById('categoryChips');
+      container.innerHTML = CATEGORIES.map((cat) => `
+        <button
+          type="button"
+          onclick="selectCategory('${cat.replace(/'/g, "\\'")}')"
+          class="px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap border transition-all cursor-pointer ${
+            activeCategory === cat
+              ? 'bg-[#8B111B] text-[#FFB703] border-[#FFB703]'
+              : 'bg-[#211816] text-[#FDF3E3]/85 border-[#F48C06]/25 hover:border-[#FFB703]/50'
+          }"
+        >
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    function selectCategory(cat) {
+      activeCategory = cat;
+      renderCategoryChips();
+      renderFullMenu();
+    }
+
+    function renderFullMenu() {
+      const grid = document.getElementById('fullMenuGrid');
+      const q = searchTerm.trim().toLowerCase();
+
+      const filtered = MENU_ITEMS.filter((dish) => {
+        const catMatch = activeCategory === 'All' || dish.category === activeCategory;
+        const dietMatch =
+          activeDiet === 'All' ||
+          (activeDiet === 'Veg' && dish.isVeg) ||
+          (activeDiet === 'Non-Veg' && !dish.isVeg);
+        const textMatch =
+          !q ||
+          dish.name.toLowerCase().includes(q) ||
+          dish.category.toLowerCase().includes(q) ||
+          dish.description.toLowerCase().includes(q);
+        return catMatch && dietMatch && textMatch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-[#211816] border border-[#F48C06]/25 rounded-2xl p-10 text-center space-y-3">
+            <div class="font-display text-xl text-[#FFF8EE]">No dishes match your filter</div>
+            <button type="button" onclick="resetMenuFilters()" class="bg-[#FFB703] text-[#120D0C] font-extrabold text-xs px-4 py-2 rounded-lg cursor-pointer">
+              Reset Menu Filters
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((dish) => {
+        const isFav = state.favorites.includes(dish.id);
+        return `
+          <div class="dish-card bg-[#1D1514] border border-[#F48C06]/25 hover:border-[#FFB703]/60 rounded-2xl overflow-hidden flex flex-col justify-between">
+            <div>
+              <div class="relative h-48">
+                <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover" />
+                <span class="absolute top-3 left-3 bg-[#120D0C]/85 text-[#FFB703] border border-[#FFB703]/30 text-[11px] font-bold px-2.5 py-1 rounded-full">
+                  ${dish.category}
+                </span>
+                <button
+                  type="button"
+                  onclick="toggleFavoriteDish('${dish.id}')"
+                  aria-label="Favorite ${dish.name}"
+                  class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#120D0C]/80 text-sm flex items-center justify-center cursor-pointer ${isFav ? 'text-[#FFB703]' : 'text-white/75'}"
+                >
+                  ${isFav ? '♥' : '♡'}
+                </button>
+              </div>
+              <div class="p-5 space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  ${dietBadgeHTML(dish.isVeg)}
+                  <span class="text-xs font-bold text-[#FFB703]">★ ${dish.rating} (${dish.reviews})</span>
+                </div>
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="font-display text-xl font-bold text-[#FFF8EE]">${dish.name}</h3>
+                  <span class="text-lg font-extrabold text-[#FFB703]">$${dish.price.toFixed(2)}</span>
+                </div>
+                <p class="text-xs sm:text-sm text-[#FDF3E3]/80 leading-relaxed">${dish.description}</p>
+
+                <div class="bg-[#140F0E] border border-[#F48C06]/20 rounded-xl p-3 space-y-1">
+                  <div class="flex justify-between text-xs font-bold text-[#FFB703]">
+                    <span>Calories & Nutrition</span>
+                    <span>${dish.nutrition.calories} kcal</span>
+                  </div>
+                  <div class="grid grid-cols-3 gap-1 text-[11px] text-[#FDF3E3]/85">
+                    <span>Protein: <strong>${dish.nutrition.protein}</strong></span>
+                    <span>Carbs: <strong>${dish.nutrition.carbs}</strong></span>
+                    <span>Fats: <strong>${dish.nutrition.fats}</strong></span>
+                  </div>
+                  <div class="text-[11px] text-[#F48C06]">
+                    Allergens: ${dish.nutrition.allergens.join(', ')}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-5 pb-5 pt-1 flex items-center gap-2">
+              <button type="button" onclick="addDishToCart('${dish.id}')" class="flex-1 bg-[#E85D04] hover:bg-[#F48C06] text-[#120D0C] font-extrabold text-xs sm:text-sm py-2.5 px-3 rounded-xl cursor-pointer">
+                + Add to Cart
+              </button>
+              <button type="button" onclick="openCustomizeModal('${dish.id}')" class="bg-[#2C201D] hover:bg-[#3A2A26] border border-[#FFB703]/35 text-[#FFB703] font-bold text-xs py-2.5 px-3 rounded-xl cursor-pointer">
+                Customize
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function resetMenuFilters() {
+      activeCategory = 'All';
+      activeDiet = 'All';
+      searchTerm = '';
+      document.getElementById('menuSearchInput').value = '';
+      document.querySelectorAll('.diet-filter-btn').forEach((btn) => {
+        const isAll = btn.dataset.diet === 'All';
+        btn.className = `diet-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer ${
+          isAll ? 'bg-[#FFB703] text-[#120D0C]' : 'text-[#FDF3E3]/80 hover:text-white'
+        }`;
+      });
+      renderCategoryChips();
+      renderFullMenu();
+    }
+
+    // Customization modal state
+    let currentCustomDish = null;
+
+    function openCustomizeModal(dishId) {
+      const dish = MENU_ITEMS.find((m) => m.id === dishId);
+      if (!dish) return;
+      currentCustomDish = dish;
+      document.getElementById('customDishTitle').textContent = dish.name;
+      document.getElementById('customSpiceSelect').value = dish.spiceDefault || 'Medium-Spicy';
+      document.getElementById('customPortionSelect').value = 'Regular|0';
+      document.getElementById('customExtraCheeseCheckbox').checked = false;
+      document.getElementById('customNotesInput').value = '';
+
+      const addonsContainer = document.getElementById('customAddonsList');
+      if (dish.addons && dish.addons.length) {
+        addonsContainer.innerHTML = `
+          <div class="text-xs font-bold text-[#FFB703]">Add-Ons & Toppings</div>
+          ${dish.addons.map((a) => `
+            <label class="flex items-center justify-between bg-[#140F0E] border border-[#F48C06]/20 rounded-xl px-3.5 py-2 text-xs cursor-pointer">
+              <span class="flex items-center gap-2 text-[#FFF8EE]">
+                <input type="checkbox" data-addon-name="${a.name}" data-addon-price="${a.price}" class="custom-addon-cb accent-[#FFB703]" onchange="recalcCustomPrice()" />
+                ${a.name}
+              </span>
+              <span class="font-bold text-[#FFB703]">+$${a.price.toFixed(2)}</span>
+            </label>
+          `).join('')}
+        `;
+      } else {
+        addonsContainer.innerHTML = '';
+      }
+
+      recalcCustomPrice();
+      const modal = document.getElementById('customizeModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function recalcCustomPrice() {
+      if (!currentCustomDish) return;
+      let price = currentCustomDish.price;
+      const portionDelta = Number(document.getElementById('customPortionSelect').value.split('|')[1] || 0);
+      price += portionDelta;
+      if (document.getElementById('customExtraCheeseCheckbox').checked) price += 1.75;
+      document.querySelectorAll('.custom-addon-cb:checked').forEach((cb) => {
+        price += Number(cb.dataset.addonPrice || 0);
+      });
+      document.getElementById('customFinalPrice').textContent = `$${price.toFixed(2)}`;
+      return Number(price.toFixed(2));
+    }
+
+    function closeCustomizeModal() {
+      const modal = document.getElementById('customizeModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      currentCustomDish = null;
+    }
+
+    // =========================================================================
+    // CART, PROMO CODES & CHECKOUT
+    // =========================================================================
+    function addDishToCart(dishId, customMeta = null, customPrice = null) {
+      const dish = MENU_ITEMS.find((m) => m.id === dishId);
+      if (!dish) return;
+      const unitPrice = customPrice !== null ? customPrice : dish.price;
+      const meta = customMeta || `${dish.spiceDefault} • Regular`;
+
+      const existing = state.cart.find((c) => c.dishId === dishId && c.meta === meta);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        state.cart.push({
+          cartId: `${dishId}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          dishId,
+          name: dish.name,
+          price: unitPrice,
+          qty: 1,
+          meta
+        });
+      }
+      saveState();
+      renderCartDrawer();
+      showToast(`Added "${dish.name}" to cart`);
+    }
+
+    function changeCartQty(cartId, delta) {
+      state.cart = state.cart
+        .map((item) => (item.cartId === cartId ? { ...item, qty: item.qty + delta } : item))
+        .filter((item) => item.qty > 0);
+      saveState();
+      renderCartDrawer();
+    }
+
+    function applyPromoCode(rawCode) {
+      const code = (rawCode || document.getElementById('couponCodeInput').value).trim().toUpperCase();
+      const msgEl = document.getElementById('couponStatusMsg');
+      msgEl.classList.remove('hidden');
+
+      if (!code) {
+        msgEl.textContent = 'Please enter a promo code (e.g., FAMILY20 or STUDENT15).';
+        return;
+      }
+      const offer = SPECIAL_OFFERS.find((o) => o.code === code);
+      if (!offer) {
+        msgEl.textContent = 'Invalid code. Try BOGO2026, FAMILY20, WEEKEND8, STUDENT15, or SWEETFREE.';
+        return;
+      }
+      state.appliedCoupon = offer;
+      document.getElementById('couponCodeInput').value = offer.code;
+      msgEl.textContent = `Applied ${offer.code}: ${offer.title} (Min $${offer.minOrder}).`;
+      saveState();
+      renderCartDrawer();
+    }
+
+    function applyPromoAndOpenCart(code) {
+      applyPromoCode(code);
+      openCartDrawer();
+    }
+
+    function computeBillTotals() {
+      const subtotal = state.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      let discount = 0;
+      if (state.appliedCoupon && subtotal >= state.appliedCoupon.minOrder) {
+        discount =
+          state.appliedCoupon.type === 'percent'
+            ? (subtotal * state.appliedCoupon.value) / 100
+            : Math.min(state.appliedCoupon.value, subtotal);
+      }
+      const taxable = Math.max(0, subtotal - discount);
+      const tax = taxable * 0.08;
+      const delivery = state.cart.length === 0 || state.orderMode === 'Takeaway' ? 0 : subtotal >= 35 ? 0 : 3.99;
+      const total = Math.max(0, taxable + tax + delivery);
+      return {
+        subtotal: Number(subtotal.toFixed(2)),
+        discount: Number(discount.toFixed(2)),
+        tax: Number(tax.toFixed(2)),
+        delivery: Number(delivery.toFixed(2)),
+        total: Number(total.toFixed(2))
+      };
+    }
+
+    function renderCartDrawer() {
+      const count = state.cart.reduce((s, i) => s + i.qty, 0);
+      document.getElementById('headerCartCount').textContent = count;
+      document.getElementById('headerPointsBadge').textContent = `${state.loyaltyPoints}p`;
+
+      const modeDelBtn = document.getElementById('modeDeliveryBtn');
+      const modeTakeBtn = document.getElementById('modeTakeawayBtn');
+      const addrWrap = document.getElementById('checkoutAddressWrapper');
+
+      if (state.orderMode === 'Delivery') {
+        modeDelBtn.className = 'py-2 rounded-lg text-xs font-extrabold bg-[#FFB703] text-[#120D0C] cursor-pointer';
+        modeTakeBtn.className = 'py-2 rounded-lg text-xs font-extrabold text-[#FDF3E3]/80 cursor-pointer';
+        addrWrap.classList.remove('hidden');
+      } else {
+        modeTakeBtn.className = 'py-2 rounded-lg text-xs font-extrabold bg-[#FFB703] text-[#120D0C] cursor-pointer';
+        modeDelBtn.className = 'py-2 rounded-lg text-xs font-extrabold text-[#FDF3E3]/80 cursor-pointer';
+        addrWrap.classList.add('hidden');
+      }
+
+      const container = document.getElementById('cartItemsContainer');
+      if (state.cart.length === 0) {
+        container.innerHTML = `
+          <div class="bg-[#221917] border border-white/10 rounded-xl p-6 text-center space-y-1">
+            <div class="font-display text-lg text-[#FFF8EE]">Your cart is empty</div>
+            <div class="text-xs text-[#FDF3E3]/70">Add dishes from the menu or specials to start an order.</div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = state.cart.map((item) => `
+          <div class="bg-[#221917] border border-[#F48C06]/25 rounded-xl p-3 flex items-center justify-between gap-3">
+            <div class="min-w-0 flex-1">
+              <div class="text-sm font-bold text-[#FFF8EE] truncate">${item.name}</div>
+              <div class="text-[11px] text-[#FDF3E3]/70 truncate">${item.meta}</div>
+              <div class="text-xs font-extrabold text-[#FFB703] mt-0.5">$${(item.price * item.qty).toFixed(2)}</div>
+            </div>
+            <div class="flex items-center gap-1.5 bg-[#120D0C] rounded-lg px-2 py-1 border border-white/10">
+              <button type="button" onclick="changeCartQty('${item.cartId}', -1)" class="px-1.5 text-[#FFB703] font-bold cursor-pointer">-</button>
+              <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+              <button type="button" onclick="changeCartQty('${item.cartId}', 1)" class="px-1.5 text-[#FFB703] font-bold cursor-pointer">+</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const bill = computeBillTotals();
+      document.getElementById('billSubtotal').textContent = `$${bill.subtotal.toFixed(2)}`;
+      const discRow = document.getElementById('billDiscountRow');
+      if (bill.discount > 0) {
+        discRow.classList.remove('hidden');
+        discRow.classList.add('flex');
+        document.getElementById('billDiscount').textContent = `-$${bill.discount.toFixed(2)}`;
+      } else {
+        discRow.classList.add('hidden');
+        discRow.classList.remove('flex');
+      }
+      document.getElementById('billTax').textContent = `$${bill.tax.toFixed(2)}`;
+      document.getElementById('billDelivery').textContent = bill.delivery === 0 ? 'FREE' : `$${bill.delivery.toFixed(2)}`;
+      document.getElementById('billGrandTotal').textContent = `$${bill.total.toFixed(2)}`;
+    }
+
+    function openCartDrawer() {
+      document.getElementById('checkoutNameInput').value = state.profile.name || '';
+      document.getElementById('checkoutPhoneInput').value = state.profile.phone || '';
+      document.getElementById('checkoutAddressInput').value = state.profile.address || '';
+      renderCartDrawer();
+      const overlay = document.getElementById('cartDrawerOverlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+    }
+
+    function closeCartDrawer() {
+      const overlay = document.getElementById('cartDrawerOverlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+    }
+
+    // =========================================================================
+    // OFFERS, AI RECOMMENDATIONS, LIVE TRACKER & CHATBOT
+    // =========================================================================
+    function renderOffers() {
+      const grid = document.getElementById('offersGrid');
+      grid.innerHTML = SPECIAL_OFFERS.map((o) => `
+        <div class="rounded-2xl p-5 bg-gradient-to-br ${o.gradient} border border-[#FFB703]/35 flex flex-col justify-between shadow-xl">
+          <div class="space-y-2">
+            <span class="inline-block bg-[#120D0C]/70 text-[#FFB703] text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full">
+              ${o.tag}
+            </span>
+            <h3 class="font-display text-xl font-bold text-[#FFF8EE] leading-snug">${o.title}</h3>
+            <p class="text-xs text-[#FFF8EE]/85">${o.desc}</p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-white/15 space-y-2">
+            <div class="flex justify-between text-xs font-mono bg-[#120D0C]/65 px-2.5 py-1.5 rounded-lg text-[#FFB703]">
+              <span>${o.code}</span>
+              <span>Min $${o.minOrder}</span>
+            </div>
+            <button type="button" onclick="applyPromoAndOpenCart('${o.code}')" class="w-full bg-[#FFF8EE] hover:bg-[#FFB703] text-[#120D0C] font-extrabold text-xs py-2 rounded-lg transition-colors cursor-pointer">
+              Apply Coupon
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAIRecommendations() {
+      const craving = document.getElementById('aiCravingSelect').value;
+      const spice = document.getElementById('aiSpiceSelect').value;
+      const diet = document.getElementById('aiDietSelect').value;
+      const budget = Number(document.getElementById('aiBudgetRange').value);
+      document.getElementById('aiBudgetValue').textContent = `$${budget}`;
+
+      const picks = MENU_ITEMS.map((dish) => {
+        if (diet === 'Veg' && !dish.isVeg) return { dish, score: -99, reasons: [] };
+        if (diet === 'Non-Veg' && dish.isVeg) return { dish, score: -99, reasons: [] };
+        let score = 0;
+        const reasons = [];
+
+        if (diet === 'High-Protein' && dish.highProtein) {
+          score += 30;
+          reasons.push(`High protein (${dish.nutrition.protein})`);
+        }
+        if (dish.price <= budget) {
+          score += 25;
+          reasons.push(`Within $${budget} budget`);
+        }
+        if (dish.spiceDefault.toLowerCase().includes(spice.toLowerCase().split('-')[0])) {
+          score += 20;
+          reasons.push(`${dish.spiceDefault} spice match`);
+        }
+        if (craving === 'Hearty' && ['Indian Cuisine', 'Italian Cuisine'].includes(dish.category)) {
+          score += 18;
+          reasons.push('Hearty comfort dish');
+        } else if (craving === 'Crispy & Quick' && ['Fast Food', 'Starters', 'Pizza and Burgers'].includes(dish.category)) {
+          score += 18;
+          reasons.push('Crisp & satisfying');
+        } else if (craving === 'Sweet & Chill' && ['Desserts', 'Beverages'].includes(dish.category)) {
+          score += 22;
+          reasons.push('Sweet & refreshing');
+        } else if (craving === 'Spicy Kick' && dish.spiceDefault.toLowerCase().includes('spicy')) {
+          score += 20;
+          reasons.push('Vibrant spice profile');
+        }
+        if (!reasons.length) reasons.push(`Rated ${dish.rating}★ by guests`);
+        return { dish, score, reasons };
+      })
+        .filter((x) => x.score > -50)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3);
+
+      document.getElementById('aiRecommendationsList').innerHTML = picks.map(({ dish, reasons }) => `
+        <div class="bg-[#1E1614] border border-[#F48C06]/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row gap-4 items-center">
+          <img src="${dish.image}" alt="${dish.name}" class="w-full sm:w-28 h-28 rounded-xl object-cover shrink-0" />
+          <div class="flex-1 space-y-1.5 w-full">
+            <div class="flex items-center justify-between gap-2">
+              <h4 class="font-display text-xl font-bold text-[#FFF8EE]">${dish.name}</h4>
+              <span class="text-base font-extrabold text-[#FFB703]">$${dish.price.toFixed(2)}</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${reasons.map((r) => `<span class="text-[11px] bg-[#6E0D15] text-[#FFB703] px-2.5 py-0.5 rounded-full font-semibold">✓ ${r}</span>`).join('')}
+            </div>
+            <p class="text-xs text-[#FDF3E3]/75 line-clamp-2">${dish.description}</p>
+            <div class="pt-1.5 flex gap-2">
+              <button type="button" onclick="addDishToCart('${dish.id}', '${spice} • Regular')" class="bg-[#E85D04] hover:bg-[#F48C06] text-[#120D0C] font-extrabold text-xs px-4 py-2 rounded-lg cursor-pointer">
+                + Add Pick
+              </button>
+              <button type="button" onclick="openCustomizeModal('${dish.id}')" class="bg-[#2B201D] text-[#FDF3E3] text-xs font-bold px-3 py-2 rounded-lg cursor-pointer">
+                Customize
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderOrderTracker() {
+      const sel = document.getElementById('trackedOrderSelect');
+      sel.innerHTML = state.orders.map((o) => `
+        <option value="${o.id}" ${o.id === state.trackedOrderId ? 'selected' : ''}>
+          Order #${o.id} — ${o.status}
+        </option>
+      `).join('');
+
+      const activeOrd = state.orders.find((o) => o.id === state.trackedOrderId) || state.orders[0];
+      const activeIdx = activeOrd ? ORDER_STAGES.indexOf(activeOrd.status) : 0;
+
+      const descriptions = [
+        'Kitchen has received your order ticket.',
+        'Chefs are preparing & plating fresh ingredients.',
+        'Order is out for delivery or ready for pickup.',
+        'Meal delivered — enjoy Taste Town!'
+      ];
+
+      document.getElementById('orderProgressSteps').innerHTML = ORDER_STAGES.map((stage, idx) => {
+        const done = idx <= activeIdx;
+        const current = idx === activeIdx;
+        return `
+          <div class="p-4 rounded-xl border transition-all ${
+            current
+              ? 'bg-[#6E0D15]/75 border-[#FFB703] shadow-lg'
+              : done
+              ? 'bg-[#281E1C] border-[#F48C06]/40'
+              : 'bg-[#140F0E] border-white/10 opacity-60'
+          }">
+            <div class="flex items-center justify-between text-[11px] font-extrabold text-[#FFB703] mb-1.5">
+              <span>STEP ${idx + 1}</span>
+              <span>${current ? 'CURRENT' : done ? 'COMPLETED' : 'PENDING'}</span>
+            </div>
+            <div class="font-bold text-sm text-[#FFF8EE]">${stage}</div>
+            <p class="text-xs text-[#FDF3E3]/75 mt-1">${descriptions[idx]}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Chatbot
+    function appendChatMessage(sender, text) {
+      const box = document.getElementById('chatbotMessages');
+      const bubble = document.createElement('div');
+      bubble.className =
+        sender === 'user'
+          ? 'bg-[#E85D04] text-[#120D0C] font-semibold p-3 rounded-xl ml-8 leading-relaxed'
+          : 'bg-[#281E1C] text-[#FFF8EE] border border-white/10 p-3 rounded-xl mr-8 leading-relaxed';
+      bubble.textContent = text;
+      box.appendChild(bubble);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function replyBot(prompt) {
+      const q = prompt.toLowerCase();
+      if (q.includes('hour') || q.includes('time') || q.includes('open')) {
+        return 'Taste Town is open Mon–Thu 11:00 AM – 10:30 PM and Fri–Sun 11:00 AM – 11:30 PM.';
+      }
+      if (q.includes('biryani')) {
+        return 'Special Chicken Biryani ($16.99, 680 kcal, 42g protein) is our signature Best Seller with saffron basmati & spices.';
+      }
+      if (q.includes('paneer') || q.includes('veg')) {
+        return 'Popular vegetarian picks include Paneer Butter Masala ($14.50), Italian Cheese Pizza ($15.99), and Special Mango Milkshake ($6.99).';
+      }
+      if (q.includes('code') || q.includes('offer') || q.includes('discount') || q.includes('promo')) {
+        return 'Use promo codes FAMILY20 (20% off $35+), STUDENT15 (15% off), BOGO2026, WEEKEND8, or SWEETFREE in the Cart!';
+      }
+      if (q.includes('reserv') || q.includes('table')) {
+        return 'Scroll to the Reserve section to choose your date, guest count, indoor/outdoor seating, and available time slot.';
+      }
+      return 'We serve Starters, Indian, Chinese, Italian, Fast Food, Pizza & Burgers, Desserts & Beverages. Ask about any dish, allergen, timing, or offer!';
+    }
+
+    function sendBotPrompt(text) {
+      appendChatMessage('user', text);
+      appendChatMessage('bot', replyBot(text));
+    }
+
+    // =========================================================================
+    // RESERVATIONS, REVIEWS, GALLERY & DASHBOARD
+    // =========================================================================
+    const RESERVATION_SLOTS = [
+      { time: '12:30 PM', open: 6 },
+      { time: '2:00 PM', open: 8 },
+      { time: '6:30 PM', open: 4 },
+      { time: '7:30 PM', open: 2 },
+      { time: '8:30 PM', open: 5 },
+      { time: '9:30 PM', open: 7 }
+    ];
+    let selectedSlotTime = '7:30 PM';
+
+    function renderReservationSlots() {
+      document.getElementById('reservationSlotsGrid').innerHTML = RESERVATION_SLOTS.map((slot) => {
+        const active = slot.time === selectedSlotTime;
+        return `
+          <button
+            type="button"
+            onclick="selectReservationSlot('${slot.time}')"
+            class="p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+              active
+                ? 'bg-[#6E0D15] border-[#FFB703] text-[#FFF8EE]'
+                : 'bg-[#140F0E] border-[#F48C06]/25 text-[#FDF3E3]/85 hover:border-[#FFB703]/50'
+            }"
+          >
+            <div class="text-xs font-bold">${slot.time}</div>
+            <div class="text-[11px] text-[#FFB703]">${slot.open} tables open</div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectReservationSlot(time) {
+      selectedSlotTime = time;
+      renderReservationSlots();
+    }
+
+    function renderReservationCard(resObj) {
+      if (!resObj) return;
+      document.getElementById('reservationConfirmationCard').innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-[#FFB703]">Confirmed Booking</span>
+          <span class="font-mono text-xs font-bold bg-[#120D0C] text-[#FFB703] px-2.5 py-1 rounded-full">#${resObj.id}</span>
+        </div>
+        <div class="text-xs text-[#FDF3E3]/80">${resObj.status}</div>
+        <div class="pt-2 border-t border-[#FFB703]/25 space-y-1.5 text-sm">
+          <div><strong>Date & Time:</strong> ${resObj.date} at ${resObj.time}</div>
+          <div><strong>Guests:</strong> ${resObj.guests}</div>
+          <div><strong>Seating:</strong> ${resObj.seating}</div>
+          <div><strong>Special Requests:</strong> ${resObj.notes || 'None'}</div>
+        </div>
+      `;
+    }
+
+    // Reviews
+    let reviewIdx = 0;
+    let uploadedReviewPhotoDataUrl = null;
+
+    function renderReviewsSection() {
+      const avg = state.reviews.length
+        ? (state.reviews.reduce((s, r) => s + Number(r.rating || 5), 0) / state.reviews.length).toFixed(1)
+        : '4.9';
+      document.getElementById('avgRatingDisplay').textContent = avg;
+      document.getElementById('reviewCountDisplay').textContent = `Based on ${state.reviews.length} reviews`;
+
+      if (!state.reviews.length) return;
+      reviewIdx = reviewIdx % state.reviews.length;
+      const rev = state.reviews[reviewIdx];
+
+      document.getElementById('reviewSliderCard').innerHTML = `
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3.5">
+            <img src="${rev.avatar}" alt="${rev.name}" class="w-14 h-14 rounded-full object-cover border-2 border-[#FFB703]" />
+            <div>
+              <div class="font-display text-xl font-bold text-[#FFF8EE]">${rev.name}</div>
+              <div class="text-xs font-semibold text-[#FFB703]">${rev.dish} • ${rev.date}</div>
+            </div>
+          </div>
+          <span class="bg-[#120D0C] text-[#FFB703] text-xs font-extrabold px-3 py-1.5 rounded-full border border-[#FFB703]/30">
+            ★ ${rev.rating}
+          </span>
+        </div>
+        <p class="text-sm sm:text-base text-[#FFF8EE]/90 italic leading-relaxed">“${rev.comment}”</p>
+        ${rev.photo ? `<img src="${rev.photo}" alt="Review dish photo" class="w-full max-w-xs h-40 object-cover rounded-xl border border-[#FFB703]/30" />` : ''}
+      `;
+    }
+
+    // Gallery & Lightbox
+    let activeGalleryCat = 'All';
+
+    function renderGallery() {
+      const cats = ['All', 'Popular Dishes', 'Restaurant Interior', 'Chef Specialties', 'Kitchen Preparation', 'Family Dining', 'Restaurant Events'];
+      document.getElementById('galleryFilterChips').innerHTML = cats.map((c) => `
+        <button
+          type="button"
+          onclick="setGalleryCategory('${c.replace(/'/g, "\\'")}')"
+          class="px-3 py-1.5 rounded-full text-xs font-bold border transition-all cursor-pointer ${
+            activeGalleryCat === c
+              ? 'bg-[#FFB703] text-[#120D0C] border-[#FFB703]'
+              : 'bg-[#211816] text-[#FDF3E3]/80 border-[#F48C06]/25'
+          }"
+        >
+          ${c}
+        </button>
+      `).join('');
+
+      const items = activeGalleryCat === 'All' ? GALLERY_ITEMS : GALLERY_ITEMS.filter((g) => g.category === activeGalleryCat);
+      document.getElementById('galleryGrid').innerHTML = items.map((g) => `
+        <div onclick="openLightbox('${g.id}')" class="group relative h-64 rounded-2xl overflow-hidden border border-[#F48C06]/25 cursor-pointer">
+          <img src="${g.image}" alt="${g.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#120D0C] via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+            <div>
+              <div class="text-[11px] font-extrabold uppercase text-[#FFB703]">${g.category}</div>
+              <div class="font-display text-lg font-bold text-[#FFF8EE]">${g.title}</div>
+            </div>
+            <span class="bg-[#120D0C]/80 text-[#FFB703] text-xs font-bold px-2.5 py-1 rounded-lg">Zoom</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setGalleryCategory(c) {
+      activeGalleryCat = c;
+      renderGallery();
+    }
+
+    function openLightbox(id) {
+      const item = GALLERY_ITEMS.find((g) => g.id === id);
+      if (!item) return;
+      document.getElementById('lightboxImage').src = item.image;
+      document.getElementById('lightboxCategory').textContent = item.category;
+      document.getElementById('lightboxTitle').textContent = item.title;
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // Favorites & Dashboard
+    function toggleFavoriteDish(dishId) {
+      const idx = state.favorites.indexOf(dishId);
+      if (idx > -1) {
+        state.favorites.splice(idx, 1);
+        showToast('Removed from Favorite Dishes');
+      } else {
+        state.favorites.push(dishId);
+        showToast('Saved to Favorite Dishes');
+      }
+      saveState();
+      renderFeaturedDishes();
+      renderFullMenu();
+    }
+
+    let currentDashTab = 'orders';
+
+    function openDashboardModal() {
+      document.getElementById('dashPointsSummary').textContent = state.loyaltyPoints;
+      renderDashboardTab();
+      const modal = document.getElementById('dashboardModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDashboardModal() {
+      const modal = document.getElementById('dashboardModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function redeemPoints(cost, code, label) {
+      if (state.loyaltyPoints < cost) {
+        showToast(`Need ${cost} pts for ${label} (You have ${state.loyaltyPoints} pts)`);
+        return;
+      }
+      state.loyaltyPoints -= cost;
+      const offer = SPECIAL_OFFERS.find((o) => o.code === code);
+      if (offer) state.appliedCoupon = offer;
+      saveState();
+      renderCartDrawer();
+      document.getElementById('dashPointsSummary').textContent = state.loyaltyPoints;
+      renderDashboardTab();
+      showToast(`Redeemed ${cost} pts — Code ${code} applied!`);
+    }
+
+    function renderDashboardTab() {
+      const area = document.getElementById('dashboardContentArea');
+      document.querySelectorAll('.dash-tab-btn').forEach((btn) => {
+        const active = btn.dataset.dashtab === currentDashTab;
+        btn.className = `dash-tab-btn px-3 py-2 rounded-xl text-xs font-extrabold text-left whitespace-nowrap cursor-pointer ${
+          active ? 'bg-[#FFB703] text-[#120D0C]' : 'text-[#FDF3E3]/80 hover:bg-[#221816]'
+        }`;
+      });
+
+      if (currentDashTab === 'orders' || currentDashTab === 'history') {
+        area.innerHTML = `
+          <h3 class="font-display text-xl font-bold text-[#FFF8EE]">${currentDashTab === 'orders' ? 'My Orders' : 'Order History'}</h3>
+          ${state.orders.map((o) => `
+            <div class="bg-[#231917] border border-[#F48C06]/25 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div class="font-mono font-bold text-[#FFB703]">#${o.id}</div>
+                <div class="text-xs text-[#FDF3E3]/75">${o.date} • ${o.mode} • Status: <strong>${o.status}</strong></div>
+                <div class="text-xs text-[#FDF3E3]/80 mt-1">${o.items.map((i) => `${i.qty}× ${i.name}`).join(', ')}</div>
+              </div>
+              <div class="text-right">
+                <div class="font-extrabold text-[#FFB703]">$${Number(o.total || 0).toFixed(2)}</div>
+                <button type="button" onclick="trackFromDashboard('${o.id}')" class="text-xs text-[#FFB703] underline cursor-pointer">Live Track</button>
+              </div>
+            </div>
+          `).join('')}
+        `;
+      } else if (currentDashTab === 'reservations') {
+        area.innerHTML = `
+          <h3 class="font-display text-xl font-bold text-[#FFF8EE]">Table Reservations</h3>
+          ${state.reservations.map((r) => `
+            <div class="bg-[#231917] border border-[#F48C06]/25 rounded-xl p-4 flex justify-between items-center text-xs">
+              <div>
+                <div class="font-bold text-[#FFB703]">#${r.id} — ${r.date} at ${r.time}</div>
+                <div class="text-[#FDF3E3]/80">${r.guests} guests • ${r.seating}</div>
+              </div>
+              <span class="bg-[#6E0D15] text-[#FFB703] px-2.5 py-1 rounded-full font-bold">${r.status}</span>
+            </div>
+          `).join('')}
+        `;
+      } else if (currentDashTab === 'loyalty') {
+        area.innerHTML = `
+          <div class="bg-[#251B19] border border-[#FFB703]/40 rounded-2xl p-4 flex items-center justify-between">
+            <div>
+              <div class="text-xs text-[#FDF3E3]/75">Loyalty Points Balance (Demo)</div>
+              <div class="font-display text-3xl font-bold text-[#FFB703]">${state.loyaltyPoints} PTS</div>
+            </div>
+            <span class="text-xs text-[#F48C06] font-bold">Earn ~10 pts per $1 ordered</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button type="button" onclick="redeemPoints(150, 'STUDENT15', '15% Off')" class="bg-[#231917] hover:border-[#FFB703] border border-[#F48C06]/25 rounded-xl p-4 text-left cursor-pointer">
+              <div class="font-bold text-[#FFF8EE]">15% Off Coupon</div>
+              <div class="text-xs text-[#FFB703]">Redeem 150 pts • Code STUDENT15</div>
+            </button>
+            <button type="button" onclick="redeemPoints(250, 'SWEETFREE', 'Free Dessert')" class="bg-[#231917] hover:border-[#FFB703] border border-[#F48C06]/25 rounded-xl p-4 text-left cursor-pointer">
+              <div class="font-bold text-[#FFF8EE]">Free Dessert Credit ($7.99)</div>
+              <div class="text-xs text-[#FFB703]">Redeem 250 pts • Code SWEETFREE</div>
+            </button>
+          </div>
+        `;
+      } else if (currentDashTab === 'favorites') {
+        const favDishes = MENU_ITEMS.filter((m) => state.favorites.includes(m.id));
+        area.innerHTML = `
+          <h3 class="font-display text-xl font-bold text-[#FFF8EE]">Favorite Dishes (${favDishes.length})</h3>
+          ${
+            favDishes.length
+              ? favDishes.map((d) => `
+                  <div class="bg-[#231917] border border-white/10 rounded-xl p-3 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                      <img src="${d.image}" alt="${d.name}" class="w-12 h-12 rounded-lg object-cover" />
+                      <div>
+                        <div class="font-bold text-sm text-[#FFF8EE]">${d.name}</div>
+                        <div class="text-xs text-[#FFB703]">$${d.price.toFixed(2)}</div>
+                      </div>
+                    </div>
+                    <button type="button" onclick="addDishToCart('${d.id}')" class="bg-[#E85D04] text-[#120D0C] font-extrabold text-xs px-3 py-1.5 rounded-lg cursor-pointer">+ Add</button>
+                  </div>
+                `).join('')
+              : `<p class="text-xs text-[#FDF3E3]/75">No favorite dishes saved yet.</p>`
+          }
+        `;
+      } else if (currentDashTab === 'addresses') {
+        area.innerHTML = `
+          <h3 class="font-display text-xl font-bold text-[#FFF8EE]">Saved Addresses</h3>
+          <div class="space-y-2">
+            ${state.addresses.map((a) => `
+              <div class="bg-[#231917] border border-white/10 rounded-xl p-3 flex items-center justify-between gap-2 text-xs">
+                <div><strong class="text-[#FFB703]">[${a.label}]</strong> ${a.text}</div>
+                <button type="button" onclick="useSavedAddress('${a.text.replace(/'/g, "\\'")}')" class="text-[#FFB703] underline cursor-pointer">Use</button>
+              </div>
+            `).join('')}
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2 pt-2">
+            <input id="newAddrLabelInput" type="text" placeholder="Label (Home/Office)" class="sm:w-36 bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3 py-2 text-xs text-[#FFF8EE]" />
+            <input id="newAddrTextInput" type="text" placeholder="Street address..." class="flex-1 bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3 py-2 text-xs text-[#FFF8EE]" />
+            <button type="button" onclick="addSavedAddress()" class="bg-[#FFB703] text-[#120D0C] font-extrabold text-xs px-4 py-2 rounded-xl cursor-pointer">Add</button>
+          </div>
+        `;
+      } else if (currentDashTab === 'profile') {
+        area.innerHTML = `
+          <h3 class="font-display text-xl font-bold text-[#FFF8EE]">Profile Settings</h3>
+          <div class="space-y-3 max-w-md">
+            <div>
+              <label class="block text-xs text-[#FFB703] mb-1">Full Name</label>
+              <input id="profNameInput" type="text" value="${state.profile.name}" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2 text-xs text-[#FFF8EE]" />
+            </div>
+            <div>
+              <label class="block text-xs text-[#FFB703] mb-1">Phone</label>
+              <input id="profPhoneInput" type="text" value="${state.profile.phone}" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2 text-xs text-[#FFF8EE]" />
+            </div>
+            <div>
+              <label class="block text-xs text-[#FFB703] mb-1">Default Address</label>
+              <input id="profAddrInput" type="text" value="${state.profile.address}" class="w-full bg-[#140F0E] border border-[#F48C06]/35 rounded-xl px-3.5 py-2 text-xs text-[#FFF8EE]" />
+            </div>
+            <button type="button" onclick="saveProfileSettings()" class="bg-[#FFB703] text-[#120D0C] font-extrabold text-xs px-4 py-2.5 rounded-xl cursor-pointer">
+              Save Profile
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function trackFromDashboard(orderId) {
+      state.trackedOrderId = orderId;
+      saveState();
+      renderOrderTracker();
+      closeDashboardModal();
+      document.getElementById('orderTrackerSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function useSavedAddress(addrText) {
+      state.profile.address = addrText;
+      document.getElementById('checkoutAddressInput').value = addrText;
+      saveState();
+      showToast('Delivery address updated');
+    }
+
+    function addSavedAddress() {
+      const label = document.getElementById('newAddrLabelInput').value.trim() || 'Saved';
+      const text = document.getElementById('newAddrTextInput').value.trim();
+      if (!text) return;
+      state.addresses.push({ id: `a-${Date.now()}`, label, text });
+      saveState();
+      renderDashboardTab();
+      showToast('Address saved');
+    }
+
+    function saveProfileSettings() {
+      state.profile.name = document.getElementById('profNameInput').value.trim() || state.profile.name;
+      state.profile.phone = document.getElementById('profPhoneInput').value.trim() || state.profile.phone;
+      state.profile.address = document.getElementById('profAddrInput').value.trim() || state.profile.address;
+      saveState();
+      showToast('Profile settings saved locally');
+    }
+
+    function openLegalModal(type) {
+      const titleEl = document.getElementById('legalModalTitle');
+      const bodyEl = document.getElementById('legalModalBody');
+      if (type === 'privacy') {
+        titleEl.textContent = 'Privacy Policy';
+        bodyEl.textContent =
+          'This Taste Town single-file web application stores your cart items, demo orders, table reservations, loyalty points, and preferences locally inside your browser via localStorage. No real payment gateway or external backend server is used.';
+      } else {
+        titleEl.textContent = 'Terms & Conditions';
+        bodyEl.textContent =
+          'Sample dish prices, nutritional estimates, promo codes, and reservation slots shown on this page are for interactive demonstration. Always inform our team about severe food allergies when placing real orders.';
+      }
+      const m = document.getElementById('legalModal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function closeLegalModal() {
+      const m = document.getElementById('legalModal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    // =========================================================================
+    // EVENT LISTENERS & INITIALIZATION
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+      // Populate review dish selector & footer category chips
+      const revDishSel = document.getElementById('revDishSelect');
+      revDishSel.innerHTML = MENU_ITEMS.map((m) => `<option value="${m.name}">${m.name}</option>`).join('');
+
+      document.getElementById('footerCategoriesList').innerHTML = CATEGORIES.filter((c) => c !== 'All')
+        .map((cat) => `<button type="button" onclick="selectCategory('${cat.replace(/'/g, "\\'")}'); document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });" class="text-xs bg-[#1A1312] hover:border-[#FFB703] border border-white/10 px-2.5 py-1 rounded-md cursor-pointer">${cat}</button>`)
+        .join('');
+
+      // Language selector
+      const langSel = document.getElementById('langSelect');
+      langSel.value = state.lang;
+      applyLanguage(state.lang);
+      langSel.addEventListener('change', (e) => applyLanguage(e.target.value));
+
+      // Hero slider & timer
+      renderHeroSlides();
+      document.getElementById('heroPrevBtn').addEventListener('click', () => setHeroSlide(heroIdx - 1));
+      document.getElementById('heroNextBtn').addEventListener('click', () => setHeroSlide(heroIdx + 1));
+      setInterval(() => setHeroSlide(heroIdx + 1), 5500);
+      tickTimers();
+      setInterval(tickTimers, 1000);
+
+      // Featured & Full menu
+      renderFeaturedDishes();
+      renderCategoryChips();
+      renderFullMenu();
+
+      document.getElementById('menuSearchInput').addEventListener('input', (e) => {
+        searchTerm = e.target.value;
+        renderFullMenu();
+      });
+
+      document.querySelectorAll('.diet-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeDiet = btn.dataset.diet;
+          document.querySelectorAll('.diet-filter-btn').forEach((b) => {
+            const isSelected = b.dataset.diet === activeDiet;
+            b.className = `diet-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-extrabold cursor-pointer ${
+              isSelected ? 'bg-[#FFB703] text-[#120D0C]' : 'text-[#FDF3E3]/80 hover:text-white'
+            }`;
+          });
+          renderFullMenu();
+        });
+      });
+
+      // Customization modal
+      document.getElementById('closeCustomizeBtn').addEventListener('click', closeCustomizeModal);
+      document.getElementById('customPortionSelect').addEventListener('change', recalcCustomPrice);
+      document.getElementById('customExtraCheeseCheckbox').addEventListener('change', recalcCustomPrice);
+      document.getElementById('confirmCustomizeBtn').addEventListener('click', () => {
+        if (!currentCustomDish) return;
+        const spice = document.getElementById('customSpiceSelect').value;
+        const portionName = document.getElementById('customPortionSelect').value.split('|')[0];
+        const extraCheese = document.getElementById('customExtraCheeseCheckbox').checked;
+        const notes = document.getElementById('customNotesInput').value.trim();
+        const addons = Array.from(document.querySelectorAll('.custom-addon-cb:checked')).map((cb) => cb.dataset.addonName);
+        const parts = [spice, portionName];
+        if (extraCheese) parts.push('Extra Cheese');
+        if (addons.length) parts.push(addons.join(', '));
+        if (notes) parts.push(`Note: ${notes}`);
+        const finalPrice = recalcCustomPrice();
+        addDishToCart(currentCustomDish.id, parts.join(' • '), finalPrice);
+        closeCustomizeModal();
+      });
+
+      // Cart drawer
+      document.getElementById('openCartBtn').addEventListener('click', openCartDrawer);
+      document.getElementById('heroOrderNowBtn').addEventListener('click', openCartDrawer);
+      document.getElementById('closeCartBtn').addEventListener('click', closeCartDrawer);
+      document.getElementById('modeDeliveryBtn').addEventListener('click', () => {
+        state.orderMode = 'Delivery';
+        saveState();
+        renderCartDrawer();
+      });
+      document.getElementById('modeTakeawayBtn').addEventListener('click', () => {
+        state.orderMode = 'Takeaway';
+        saveState();
+        renderCartDrawer();
+      });
+      document.getElementById('applyCouponBtn').addEventListener('click', () => applyPromoCode());
+      document.getElementById('redeemLoyaltyInCartBtn').addEventListener('click', () => {
+        redeemPoints(150, 'STUDENT15', '15% Off');
+      });
+
+      // Checkout form submission
+      document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('checkoutNameInput').value.trim();
+        const phone = document.getElementById('checkoutPhoneInput').value.trim();
+        const addr = document.getElementById('checkoutAddressInput').value.trim();
+
+        const errName = document.getElementById('errCheckoutName');
+        const errPhone = document.getElementById('errCheckoutPhone');
+        const errAddr = document.getElementById('errCheckoutAddress');
+        const errCart = document.getElementById('errCheckoutCart');
+
+        [errName, errPhone, errAddr, errCart].forEach((el) => el.classList.add('hidden'));
+
+        let valid = true;
+        if (!name) {
+          errName.textContent = 'Please enter your name.';
+          errName.classList.remove('hidden');
+          valid = false;
+        }
+        if (!phone || phone.length < 7) {
+          errPhone.textContent = 'Please enter a valid phone number.';
+          errPhone.classList.remove('hidden');
+          valid = false;
+        }
+        if (state.orderMode === 'Delivery' && !addr) {
+          errAddr.textContent = 'Delivery address is required.';
+          errAddr.classList.remove('hidden');
+          valid = false;
+        }
+        if (state.cart.length === 0) {
+          errCart.textContent = 'Your cart is empty.';
+          errCart.classList.remove('hidden');
+          valid = false;
+        }
+        if (!valid) return;
+
+        const bill = computeBillTotals();
+        const orderId = `TT-${Math.floor(1000 + Math.random() * 9000)}`;
+        const createdOrder = {
+          id: orderId,
+          date: 'Just now',
+          mode: state.orderMode,
+          status: 'Order Received',
+          items: state.cart.map((c) => ({ ...c })),
+          total: bill.total,
+          address: state.orderMode === 'Delivery' ? addr : 'Counter Takeaway'
+        };
+
+        state.orders.unshift(createdOrder);
+        state.trackedOrderId = orderId;
+        state.profile.name = name;
+        state.profile.phone = phone;
+        if (addr) state.profile.address = addr;
+        const earned = Math.max(15, Math.round(bill.total * 10));
+        state.loyaltyPoints += earned;
+        state.cart = [];
+        state.appliedCoupon = null;
+        document.getElementById('couponCodeInput').value = '';
+        document.getElementById('couponStatusMsg').classList.add('hidden');
+        saveState();
+
+        renderCartDrawer();
+        renderOrderTracker();
+        closeCartDrawer();
+        showToast(`Order #${orderId} placed (Demo)! +${earned} loyalty points`);
+        document.getElementById('orderTrackerSection').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // Offers & AI recommendations
+      renderOffers();
+      renderAIRecommendations();
+      ['aiCravingSelect', 'aiSpiceSelect', 'aiDietSelect', 'aiBudgetRange'].forEach((id) => {
+        document.getElementById(id).addEventListener('change', renderAIRecommendations);
+        document.getElementById(id).addEventListener('input', renderAIRecommendations);
+      });
+
+      // Live order tracker
+      renderOrderTracker();
+      document.getElementById('trackedOrderSelect').addEventListener('change', (e) => {
+        state.trackedOrderId = e.target.value;
+        saveState();
+        renderOrderTracker();
+      });
+      document.getElementById('advanceOrderStageBtn').addEventListener('click', () => {
+        const ord = state.orders.find((o) => o.id === state.trackedOrderId) || state.orders[0];
+        if (!ord) return;
+        const idx = ORDER_STAGES.indexOf(ord.status);
+        ord.status = ORDER_STAGES[(idx + 1) % ORDER_STAGES.length];
+        saveState();
+        renderOrderTracker();
+        showToast(`Order #${ord.id} status: ${ord.status}`);
+      });
+
+      // Chatbot
+      appendChatMessage('bot', 'Welcome to Taste Town! Ask me about dishes, spice/nutrition, timings, offers, or table reservations.');
+      document.getElementById('toggleChatbotBtn').addEventListener('click', () => {
+        document.getElementById('chatbotPanel').classList.toggle('hidden');
+      });
+      document.getElementById('closeChatbotBtn').addEventListener('click', () => {
+        document.getElementById('chatbotPanel').classList.add('hidden');
+      });
+      document.getElementById('chatbotForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const inp = document.getElementById('chatbotInput');
+        const txt = inp.value.trim();
+        if (!txt) return;
+        inp.value = '';
+        sendBotPrompt(txt);
+      });
+
+      // Table reservations
+      renderReservationSlots();
+      if (state.reservations[0]) renderReservationCard(state.reservations[0]);
+
+      document.getElementById('reservationForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const dateVal = document.getElementById('resDateInput').value;
+        const guestsVal = Number(document.getElementById('resGuestsInput').value);
+        const seatingVal = document.getElementById('resSeatingSelect').value;
+        const notesVal = document.getElementById('resNotesInput').value.trim();
+        const errEl = document.getElementById('reservationError');
+
+        if (!dateVal || guestsVal < 1 || guestsVal > 16) {
+          errEl.textContent = 'Please pick a valid date and 1–16 guests.';
+          errEl.classList.remove('hidden');
+          return;
+        }
+        errEl.classList.add('hidden');
+
+        const newRes = {
+          id: `RES-${Math.floor(4000 + Math.random() * 5999)}`,
+          date: dateVal,
+          time: selectedSlotTime,
+          guests: guestsVal,
+          seating: seatingVal,
+          notes: notesVal,
+          status: 'Confirmed (Demo Local Booking)'
+        };
+        state.reservations.unshift(newRes);
+        saveState();
+        renderReservationCard(newRes);
+        showToast(`Table #${newRes.id} reserved (Demo)`);
+      });
+
+      // Reviews
+      renderReviewsSection();
+      document.getElementById('prevReviewBtn').addEventListener('click', () => {
+        reviewIdx = (reviewIdx - 1 + state.reviews.length) % state.reviews.length;
+        renderReviewsSection();
+      });
+      document.getElementById('nextReviewBtn').addEventListener('click', () => {
+        reviewIdx = (reviewIdx + 1) % state.reviews.length;
+        renderReviewsSection();
+      });
+
+      document.getElementById('revPhotoInput').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          uploadedReviewPhotoDataUrl = reader.result;
+          document.getElementById('revPhotoStatus').textContent = file.name;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById('reviewSubmitForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const author = document.getElementById('revAuthorInput').value.trim();
+        const dish = document.getElementById('revDishSelect').value;
+        const rating = Number(document.getElementById('revRatingSelect').value);
+        const comment = document.getElementById('revCommentInput').value.trim();
+        const msgEl = document.getElementById('revFormMessage');
+
+        msgEl.classList.remove('hidden');
+        if (!author || !comment) {
+          msgEl.textContent = 'Please enter your name and review message.';
+          return;
+        }
+
+        state.reviews.unshift({
+          id: `r-${Date.now()}`,
+          name: author,
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+          rating,
+          dish,
+          comment,
+          photo: uploadedReviewPhotoDataUrl,
+          date: 'Just now'
+        });
+        reviewIdx = 0;
+        uploadedReviewPhotoDataUrl = null;
+        document.getElementById('revAuthorInput').value = '';
+        document.getElementById('revCommentInput').value = '';
+        document.getElementById('revPhotoInput').value = '';
+        document.getElementById('revPhotoStatus').textContent = 'No photo attached';
+        msgEl.textContent = 'Thank you! Your review has been published.';
+        saveState();
+        renderReviewsSection();
+      });
+
+      // Gallery
+      renderGallery();
+
+      // Map toggle & Newsletter
+      document.getElementById('toggleMapEmbedBtn').addEventListener('click', () => {
+        document.getElementById('mapPlaceholder').classList.toggle('hidden');
+        document.getElementById('interactiveMapFrame').classList.toggle('hidden');
+      });
+
+      document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('newsletterEmailInput').value.trim();
+        const fb = document.getElementById('newsletterFeedback');
+        fb.classList.remove('hidden');
+        if (!email || !email.includes('@')) {
+          fb.textContent = 'Please enter a valid email address.';
+          return;
+        }
+        fb.textContent = `Subscribed ${email} for Taste Town updates (Demo).`;
+        document.getElementById('newsletterEmailInput').value = '';
+      });
+
+      // Dashboard modal & tabs
+      document.getElementById('openDashboardBtn').addEventListener('click', openDashboardModal);
+      document.getElementById('closeDashboardBtn').addEventListener('click', closeDashboardModal);
+      document.querySelectorAll('.dash-tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          currentDashTab = btn.dataset.dashtab;
+          renderDashboardTab();
+        });
+      });
+
+      renderCartDrawer();
+    });
+  </script>
+</body>
+</html>
